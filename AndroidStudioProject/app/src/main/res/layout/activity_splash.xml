@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="20dp">
+
+    <!-- Glowing overlay effect -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/glow_effect"
+        android:alpha="0.3" />
+
+    <!-- Terminal Output Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/developer_section"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Terminal Header -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="╔═══════════════════════════════════════╗"
+                android:textColor="#00ff41"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10"
+                android:layout_marginTop="40dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="║     ADP CHATHOUSE TERMINAL v2.0      ║"
+                android:textColor="#00ff41"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="╚═══════════════════════════════════════╝"
+                android:textColor="#00ff41"
+                android:textSize="12sp"
+                android:fontFamily="monospace"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Terminal Lines -->
+            <TextView
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Initializing system..."
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Loading core modules... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Establishing secure connection... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Activating server database... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Encrypting communication channels... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Loading chat interface... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> Initializing WebView engine... [OK]"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="8"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/line8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="> System ready. Welcome!"
+                android:textColor="#00ff41"
+                android:textSize="14sp"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="12"
+                android:layout_marginTop="16dp" />
+
+            <!-- Blinking Cursor -->
+            <TextView
+                android:id="@+id/cursor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="█"
+                android:textColor="#00ff41"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:visibility="invisible"
+                android:shadowColor="#00ff41"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Developer Section at Bottom (Hero Style) -->
+    <LinearLayout
+        android:id="@+id/developer_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            android:textColor="#00ff41"
+            android:textSize="10sp"
+            android:fontFamily="monospace" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEVELOPED BY"
+            android:textColor="#888888"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.2"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚡ ATHARV PAWAR ⚡"
+            android:textColor="#00ff41"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[ FULL STACK DEVELOPER ]"
+            android:textColor="#00ff41"
+            android:textSize="11sp"
+            android:fontFamily="monospace"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            android:textColor="#00ff41"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

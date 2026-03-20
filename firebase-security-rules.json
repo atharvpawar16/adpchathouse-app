@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "rooms": {
+      "$roomId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    
+    "permanentChats": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    
+    "waitingUsers": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}

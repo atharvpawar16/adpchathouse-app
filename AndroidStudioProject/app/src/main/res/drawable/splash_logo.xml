@@ -1,0 +1,33 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#26A69A"
+        android:pathData="M60,10 A50,50 0 1,1 60,110 A50,50 0 1,1 60,10 Z"/>
+    
+    <!-- Chat Bubble -->
+    <path
+        android:fillColor="#1a1a1a"
+        android:pathData="M35,40 L85,40 A10,10 0 0,1 95,50 L95,70 A10,10 0 0,1 85,80 L50,80 L40,90 L40,80 L35,80 A10,10 0 0,1 25,70 L25,50 A10,10 0 0,1 35,40 Z"/>
+    
+    <!-- Chat Lines -->
+    <path
+        android:strokeColor="#26A69A"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M40,55 L80,55"/>
+    <path
+        android:strokeColor="#26A69A"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M40,65 L70,65"/>
+    
+    <!-- Terminal Cursor -->
+    <path
+        android:fillColor="#26A69A"
+        android:pathData="M75,62 L75,68 L78,68 L78,62 Z"/>
+</vector>

@@ -1,0 +1,28 @@
+# ===== ANDROID =====
+AndroidStudioProject/.gradle/
+AndroidStudioProject/.idea/
+AndroidStudioProject/app/build/
+AndroidStudioProject/build/
+AndroidStudioProject/local.properties
+*.iml
+*.hprof
+*.keystore
+!debug.keystore
+.cxx/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.idea/
+.vscode/
+
+# ===== NODE =====
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ===== MISC =====
+*.jsbundle
+/coverage
