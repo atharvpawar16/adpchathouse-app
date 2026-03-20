@@ -1,9 +1,9 @@
 # ===== ANDROID =====
-AndroidStudioProject/.gradle/
-AndroidStudioProject/.idea/
-AndroidStudioProject/app/build/
-AndroidStudioProject/build/
-AndroidStudioProject/local.properties
+.gradle/
+.idea/
+app/build/
+build/
+local.properties
 *.iml
 *.hprof
 *.keystore
