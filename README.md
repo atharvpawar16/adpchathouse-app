@@ -1,90 +1,100 @@
-# 💬 ADP ChatHouse
-
-> A real-time IP-based chat platform where people connect and chat instantly — no phone number, no social media required.
+# ADP Chathouse
 
 ![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Android-00ff41?style=flat-square&labelColor=000000)
-![Firebase](https://img.shields.io/badge/Backend-Firebase-00ff41?style=flat-square&labelColor=000000)
-![Status](https://img.shields.io/badge/Status-In%20Development-00ff41?style=flat-square&labelColor=000000)
+![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=flat-square&labelColor=000000)
+![Language](https://img.shields.io/badge/Android-Java-orange?style=flat-square&labelColor=000000)
+![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square&labelColor=000000)
+![Version](https://img.shields.io/badge/Version-0.5.0-blue?style=flat-square&labelColor=000000)
+![PRs](https://img.shields.io/badge/PRs-Not%20Accepting-lightgrey?style=flat-square&labelColor=000000)
+![Made With](https://img.shields.io/badge/Made%20With-Java%20%7C%20JS-00ff41?style=flat-square&labelColor=000000)
+![Realtime](https://img.shields.io/badge/Realtime-Yes-00ff41?style=flat-square&labelColor=000000)
+![Auth](https://img.shields.io/badge/Auth-Email%20%7C%20Anonymous-00ff41?style=flat-square&labelColor=000000)
+![Theme](https://img.shields.io/badge/Theme-Dark%20%7C%20Light-00ff41?style=flat-square&labelColor=000000)
+
+> A real-time chat platform built for instant human connection — no phone number, no social media, no noise.
 
 ---
 
-## ✨ Features
+## Overview
 
-- 🔐 **Secure Email Login** — Gmail-only authentication with email verification
-- 🎭 **Anonymous Mode** — Join any room instantly with just a username and room code
-- 💬 **Real-time Messaging** — Instant chat powered by Firebase Realtime Database
-- 🔑 **Password Reset** — Forgot password flow with email recovery
-- 🖼️ **Image Sharing** — Send images directly in chat
-- 😊 **Emoji & GIF Support** — Full emoji picker and Giphy GIF integration
-- 🔒 **Room Passwords** — Lock your room with a password for private chats
-- 👑 **Admin Controls** — Room admin system with message deletion
-- 📱 **Android App** — Native Android wrapper for mobile experience
-- 🌙 **Dark / Light Mode** — Terminal-style dark theme with light mode toggle
-- ⚡ **Typing Indicators** — See when others are typing in real time
+ADP Chathouse is a cross-platform chat application available on both web and Android. It focuses on simplicity and speed — users can jump into a conversation within seconds using either a verified account or a completely anonymous session.
+
+The app is built with a terminal-inspired UI, real-time sync, and a lightweight Android wrapper that keeps the experience smooth and native-feeling on mobile.
 
 ---
 
-## 🛠️ Tech Stack
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| Secure Login | Email-based authentication with verification |
+| Anonymous Mode | Join any room instantly with a username and room code |
+| Real-time Messaging | Messages sync instantly across all connected users |
+| Image Sharing | Send images directly inside the chat |
+| Emoji & GIF Support | Built-in emoji picker and GIF search |
+| Private Rooms | Lock any room with a password |
+| Admin Controls | Room admin system with moderation tools |
+| Typing Indicators | Live typing status for all users |
+| Dark / Light Theme | Terminal-style dark mode with a clean light mode |
+| Android App | Native Android wrapper with background keep-alive |
+
+---
+
+## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Realtime Database |
-| Auth | System Authentication |
-| Android | Java (WebView) |
-| Hosting | Firebase / Vercel |
+|-------|------------|
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend | Cloud Realtime Database |
+| Authentication | Cloud Auth Service |
+| Android | Java — Native WebView |
+| Hosting | Cloud Hosting |
 
 ---
 
-## 📱 Platforms
-
-- ✅ Web Browser (any device)
-- ✅ Android App (APK)
-
----
-
-## 🚀 Getting Started
-
-### Web
-Just open `index.html` in your browser or visit the hosted link.
-
-### Android
-1. Open `AndroidStudioProject` in Android Studio
-2. Build and run on your device or emulator
-
----
-
-## 🔐 Authentication
-
-- Only **Gmail addresses** are accepted
-- Email verification required before login
-- Secure password reset via email
-
----
-
-## 📂 Project Structure
+## Project Structure
 
 ```
-ADP-ChatHouse/
-├── index.html                  # Main web app
-├── firebase-security-rules.json
-├── AndroidStudioProject/       # Native Android app
-│   └── app/src/main/
-│       ├── java/               # Java source files
-│       ├── assets/index.html   # WebView content
-│       └── res/                # Android resources
+adpchathouse-app/
+├── app/
+│   └── src/
+│       └── main/
+│           ├── java/com/adpchathouse/app/
+│           │   ├── MainActivity.java        # WebView host activity
+│           │   ├── SplashActivity.java      # Animated splash screen
+│           │   └── KeepAliveService.java    # Background service
+│           ├── assets/
+│           │   └── index.html               # Web app entry point
+│           ├── res/                         # Android resources
+│           └── AndroidManifest.xml
+├── build.gradle
+├── settings.gradle
 └── README.md
 ```
 
 ---
 
-## 👨‍💻 Developer
+## Platforms
 
-**Atharv Pawar**
-Full Stack Developer
+- Web — runs in any modern browser
+- Android — native APK with full mobile support
 
 ---
 
-## 📄 License
+## Current Status
 
-This project is personal and proprietary. All rights reserved © 2026 Atharv Pawar.
+Active development — core chat system complete, additional features in progress.
+
+---
+
+## Developer
+
+**Atharv Pawar**
+Android & Web Developer | Full Stack Analyst
+
+---
+
+## License
+
+This project is personal and proprietary.
+All rights reserved © 2026 Atharv Pawar. Unauthorized use, copying, or distribution is not permitted.
