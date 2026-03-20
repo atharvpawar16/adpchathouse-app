@@ -29,8 +29,8 @@
 | Layer | Technology |
 |-------|-----------|
 | Frontend | HTML, CSS, JavaScript |
-| Backend | Firebase Realtime Database |
-| Auth | Firebase Authentication |
+| Backend | Realtime Database |
+| Auth | System Authentication |
 | Android | Java (WebView) |
 | Hosting | Firebase / Vercel |
 
