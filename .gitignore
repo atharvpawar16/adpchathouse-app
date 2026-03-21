@@ -1,28 +1,27 @@
-# ===== ANDROID =====
+# ===== ANDROID BUILD =====
 .gradle/
-.idea/
 app/build/
 build/
-local.properties
 *.iml
 *.hprof
-*.keystore
-!debug.keystore
 .cxx/
 
-# ===== OS =====
-.DS_Store
-Thumbs.db
+# ===== LOCAL CONFIG =====
+local.properties
+gradle.properties
+
+# ===== SIGNING — NEVER commit keystore or passwords =====
+*.jks
+*.keystore
 
 # ===== IDE =====
 .idea/
 .vscode/
 
-# ===== NODE =====
-node_modules/
-npm-debug.log
-yarn-error.log
+# ===== OS =====
+.DS_Store
+Thumbs.db
 
-# ===== MISC =====
-*.jsbundle
-/coverage
+# ===== NODE (Cloud Functions) =====
+functions/node_modules/
+functions/npm-debug.log

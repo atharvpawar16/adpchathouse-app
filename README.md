@@ -1,10 +1,10 @@
 # ADP Chathouse
 
 ![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Android-00ff41?style=flat-square&labelColor=000000)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=flat-square&labelColor=000000)
+![Status](https://img.shields.io/badge/Status-Active-00ff41?style=flat-square&labelColor=000000)
 ![Language](https://img.shields.io/badge/Android-Java-orange?style=flat-square&labelColor=000000)
 ![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square&labelColor=000000)
-![Version](https://img.shields.io/badge/Version-0.5.0-blue?style=flat-square&labelColor=000000)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000)
 ![PRs](https://img.shields.io/badge/PRs-Not%20Accepting-lightgrey?style=flat-square&labelColor=000000)
 ![Made With](https://img.shields.io/badge/Made%20With-Java%20%7C%20JS-00ff41?style=flat-square&labelColor=000000)
 ![Realtime](https://img.shields.io/badge/Realtime-Yes-00ff41?style=flat-square&labelColor=000000)

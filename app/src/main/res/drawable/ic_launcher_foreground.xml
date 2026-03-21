@@ -3,16 +3,30 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
+    <!-- Chat bubble body -->
     <path
-        android:fillColor="#26A69A"
-        android:pathData="M0,0h108v108h-108z"/>
+        android:fillColor="#00ff41"
+        android:pathData="M22,28 L86,28 A8,8 0 0,1 94,36 L94,66 A8,8 0 0,1 86,74 L52,74 L40,86 L40,74 L22,74 A8,8 0 0,1 14,66 L14,36 A8,8 0 0,1 22,28 Z"/>
+
+    <!-- Terminal prompt > -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M54,30c-13.2,0 -24,10.8 -24,24s10.8,24 24,24 24,-10.8 24,-24 -10.8,-24 -24,-24zM54,72c-9.9,0 -18,-8.1 -18,-18s8.1,-18 18,-18 18,8.1 18,18 -8.1,18 -18,18z"/>
+        android:fillColor="#020c02"
+        android:pathData="M26,45 L34,51 L26,57 L30,57 L38,51 L30,45 Z"/>
+
+    <!-- Cursor block -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M42,48h6v12h-6z"/>
+        android:fillColor="#020c02"
+        android:pathData="M42,45 L56,45 L56,57 L42,57 Z"/>
+
+    <!-- Dot line 1 -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M60,48h6v12h-6z"/>
+        android:fillColor="#020c02"
+        android:pathData="M62,45 L82,45 L82,49 L62,49 Z"/>
+
+    <!-- Dot line 2 -->
+    <path
+        android:fillColor="#020c02"
+        android:pathData="M26,62 L70,62 L70,66 L26,66 Z"/>
+
 </vector>

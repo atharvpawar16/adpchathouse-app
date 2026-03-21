@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "383596050900",
+    "firebase_url": "https://adp-chathouse-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "adp-chathouse",
+    "storage_bucket": "adp-chathouse.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383596050900:android:91e80f3cf75119d96bbe41",
+        "android_client_info": {
+          "package_name": "com.adpchathouse.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383596050900-r6vbc92dqh472s921j8rsfis4bqd9bka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTN5Xt2PXyajnE5mLqM8u77TTP2WY6DSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383596050900-r6vbc92dqh472s921j8rsfis4bqd9bka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
