@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android 12+ uses data_extraction_rules.xml (already present).
+    This file is kept for backward compatibility with older Android versions.
+-->
 <full-backup-content>
     <include domain="sharedpref" path="."/>
     <exclude domain="sharedpref" path="device.xml"/>

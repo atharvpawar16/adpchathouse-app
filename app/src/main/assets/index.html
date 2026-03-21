@@ -50,7 +50,15 @@
     .btn-secondary{background:transparent;color:var(--text-dim);border:1px solid var(--border);padding:14px;font-family:'Share Tech Mono',monospace;font-size:0.95rem;font-weight:bold;letter-spacing:3px;cursor:pointer;margin-top:10px;transition:all 0.2s;width:100%;}
     .btn-secondary:hover{border-color:var(--green-dim);color:var(--green);}
     .error{color:var(--red);font-size:0.8rem;min-height:20px;margin-top:12px;}
-    /* color picker row */
+    /* ── PERMANENT MODE DIALOG ── */
+    #perm-dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;}
+    #perm-dialog-overlay.hidden{display:none!important;}
+    #perm-dialog{width:100%;max-width:420px;background:var(--bg2);border:1px solid var(--border-bright);padding:28px;box-shadow:0 0 40px #00ff4120;display:flex;flex-direction:column;gap:12px;}
+    #perm-dialog .dlg-title{font-size:1rem;color:var(--green);letter-spacing:2px;text-shadow:var(--green-glow);}
+    #perm-dialog .dlg-line{font-size:0.78rem;color:var(--text-dim);line-height:1.7;border-left:2px solid var(--green-dim);padding-left:10px;}
+    #perm-dialog .dlg-line span{color:var(--green);}
+    #perm-dialog .dlg-warn{font-size:0.72rem;color:#ffdd00;margin-top:4px;}
+    #perm-dialog-ok{margin-top:8px;}
     .color-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
     .color-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border 0.15s;}
     .color-dot.selected{border-color:#fff;}
@@ -60,7 +68,7 @@
     .logo-small{font-size:0.95rem;color:var(--green);letter-spacing:2px;text-shadow:var(--green-glow);white-space:nowrap;}
     .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
     #room-label{font-size:0.68rem;color:var(--text-dim);}
-    #admin-badge{font-size:0.65rem;color:#ffdd00;letter-spacing:1px;text-shadow:0 0 6px #ffdd0088;}
+    #admin-badge{display:inline;font-size:0.65rem;color:#ffdd00;letter-spacing:1px;text-shadow:0 0 6px #ffdd0088;}
     #online-count{font-size:0.68rem;color:var(--text-dim);border:1px solid var(--border);padding:2px 8px;cursor:pointer;}
     #online-count:hover{border-color:var(--green-dim);color:var(--green);}
     /* user list panel */
@@ -227,21 +235,25 @@
 
       <!-- PERMANENT LOGIN MODE -->
       <div id="permanent-mode" class="login-mode">
-        <p class="mode-description">&gt; Login with email to chat with random people</p>
+        <p class="mode-description">&gt; Everyone who logs in with the same email joins the same room</p>
         
         <label>// EMAIL</label>
         <input id="email" type="email" placeholder="yourname@gmail.com" autocomplete="email" aria-label="Email"/>
         <span class="hint">&gt; Only Gmail addresses are accepted</span>
 
         <label>// PASSWORD</label>
-        <input id="password" type="password" placeholder="enter password" autocomplete="current-password" aria-label="Password"/>
+        <div style="position:relative;display:flex;align-items:center;">
+          <input id="password" type="password" placeholder="enter password" autocomplete="current-password" aria-label="Password" style="flex:1;padding-right:44px;margin-bottom:0;"/>
+          <button type="button" id="toggle-password" aria-label="Toggle password visibility" style="position:absolute;right:0;top:0;height:100%;width:40px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">👁</button>
+        </div>
 
-        <label>// DISPLAY NAME</label>
-        <input id="display-name" type="text" placeholder="your name..." maxlength="20" autocomplete="name" aria-label="Display name"/>
+        <label>// DISPLAY NAME <span style="color:var(--green);font-size:0.65rem">— use your real name</span></label>
+        <input id="display-name" type="text" placeholder="e.g. Atharv, Priya, Rahul..." maxlength="20" autocomplete="name" aria-label="Display name"/>
+        <span class="hint">&gt; Use your real name so friends can identify you instantly</span>
 
         <button class="btn-primary" id="permanent-login-btn" aria-label="Login with email">[ LOGIN ]</button>
         <button class="btn-secondary" id="permanent-signup-btn" aria-label="Create account">[ SIGN UP ]</button>
-        <p class="hint">&gt; You'll be matched with a random person to chat</p>
+        <p class="hint">&gt; Share your email with friends — same email = same room, room grows as more join</p>
       </div>
 
       <!-- ANONYMOUS LOGIN MODE -->
@@ -290,6 +302,7 @@
       <div class="header-right">
         <div id="net-pulse" title="Connected"></div>
         <span id="room-label"></span>
+        <span id="admin-badge" class="hidden" aria-label="Admin badge">👑 ADMIN</span>
         <span id="online-count" role="button" tabindex="0" aria-label="View online users">👥 0</span>
         <span id="unread-badge" aria-live="polite" aria-label="Unread messages">0</span>
         <button id="sound-btn" class="btn-leave" title="Toggle sound" aria-label="Toggle notification sound">🔔</button>
@@ -318,6 +331,7 @@
         <button class="icon-btn" id="emoji-btn" title="Emoji" aria-label="Open emoji picker">😊</button>
         <button class="icon-btn" id="gif-btn" title="GIF" aria-label="Open GIF picker">GIF</button>
         <button class="icon-btn" id="img-btn" title="Image" aria-label="Upload image">🖼</button>
+        <label for="img-input" class="hidden">Select image file</label>
         <input type="file" id="img-input" accept="image/jpeg,image/png,image/gif,image/webp" aria-label="Select image file"/>
         <input id="msg-input" type="text" placeholder="> type message..." maxlength="500" autocomplete="off" aria-label="Type your message"/>
         <button class="btn-send" id="send-btn" aria-label="Send message">SEND</button>
@@ -327,11 +341,32 @@
     <footer>© ADP Chathouse 2026</footer>
   </div>
 
+  <!-- PERMANENT MODE INFO DIALOG -->
+  <div id="perm-dialog-overlay" class="hidden">
+    <div id="perm-dialog" role="dialog" aria-modal="true" aria-labelledby="perm-dlg-title">
+      <div class="dlg-title" id="perm-dlg-title">[ HOW PERMANENT MODE WORKS ]<span class="logo-blink"></span></div>
+      <div class="dlg-line">
+        &gt; <span>Same email = same room.</span> Everyone who logs in with the same email address joins the same group chat — like a WhatsApp group.
+      </div>
+      <div class="dlg-line">
+        &gt; <span>You stay logged in.</span> Close the app, reopen it — you're back in your room automatically. No need to login again.
+      </div>
+      <div class="dlg-line">
+        &gt; <span>Messages while away.</span> You'll get a notification when someone sends a message even if the app is closed or in the background.
+      </div>
+      <div class="dlg-line">
+        &gt; <span>Use your real name</span> as your display name so your friends can identify you quickly in the room.
+      </div>
+      <div class="dlg-warn">⚠ Share your email only with people you want in your room — anyone with the same email can join.</div>
+      <button class="btn-primary" id="perm-dialog-ok">[ GOT IT — ENTER ROOM ]</button>
+    </div>
+  </div>
+
   <!-- Image Viewer Modal -->
   <div id="image-viewer-modal">
     <button id="viewer-close" aria-label="Close image viewer">✕</button>
     <div id="image-viewer-container">
-      <img id="image-viewer-img" alt="Full size image" />
+      <img id="image-viewer-img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Full size image" />
     </div>
     <div class="viewer-controls">
       <button class="viewer-btn" id="zoom-out" aria-label="Zoom out">−</button>
@@ -347,7 +382,8 @@
              query, limitToLast, get, set, remove, serverTimestamp }
       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, createUserWithEmailAndPassword, 
-             signInWithEmailAndPassword, updateProfile, sendEmailVerification }
+             signInWithEmailAndPassword, updateProfile, sendEmailVerification,
+             browserLocalPersistence, setPersistence }
       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     // Firebase config - API key is public but protected by Firebase Security Rules
@@ -365,6 +401,11 @@
     const app = initializeApp(firebaseConfig);
     const db      = getDatabase(app);
     const auth    = getAuth(app);
+
+    // ── FCM PUSH NOTIFICATIONS — disabled ──
+    async function requestNotificationPermission() {
+      // notifications disabled by design
+    }
 
     // ── CONSTANTS ──
     const CONFIG = {
@@ -456,6 +497,7 @@
     const onlineCount  = document.getElementById('online-count');
     const scrollBtn    = document.getElementById('scroll-btn');
     const unreadBadge  = document.getElementById('unread-badge');
+    const adminBadge   = document.getElementById('admin-badge');
     const soundBtn     = document.getElementById('sound-btn');
     const netPulse     = document.getElementById('net-pulse');
     const userPanel    = document.getElementById('user-panel');
@@ -595,23 +637,36 @@
     });
 
     // ── ANONYMOUS AUTH — sign in before anything else ──
-    // disable connect until auth token is ready
     connectBtn.disabled = true;
     let authReady = false;
+    let permLoginInProgress = false; // prevents onAuthStateChanged racing with manual login
     signInAnonymously(auth).catch(err => {
       loginError.textContent = '> AUTH FAILED: ' + err.message;
     });
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, async user => {
       if (user && !authReady) {
         authReady = true;
         connectBtn.disabled = false;
+
+        // ── AUTO-RECONNECT PERMANENT USER ──
+        if (!permLoginInProgress && !user.isAnonymous && user.email) {
+          const savedPermName  = localStorage.getItem('adp-perm-name');
+          const savedPermEmail = localStorage.getItem('adp-perm-email');
+          if (savedPermName && savedPermEmail && savedPermEmail === user.email) {
+            await joinEmailRoom(savedPermEmail, savedPermName, true); // silent=true: skip join message on auto-reconnect
+            await requestNotificationPermission();
+            if (window.AndroidBridge) window.AndroidBridge.onRoomJoined(safeRoom, myUsername);
+            return;
+          }
+        }
+
         // auto-fill from share link params
         const params = new URLSearchParams(window.location.search);
         if (params.get('room')) {
           document.getElementById('room').value = params.get('room');
           if (params.get('pass')) document.getElementById('room-password').value = params.get('pass');
         }
-        // auto-reconnect only after auth is confirmed
+        // auto-reconnect anonymous session
         const savedUser = sessionStorage.getItem('adp-user');
         const savedRoom = sessionStorage.getItem('adp-room');
         const savedPass = sessionStorage.getItem('adp-pass');
@@ -830,7 +885,7 @@
       gifGrid.innerHTML = '<span style="color:var(--text-faint);font-size:0.7rem">loading...</span>';
       try {
         // WARNING: API key should be moved to backend proxy in production
-        const _k = ['GlVGYHkr3WSB','nllca54iNt0y','Fbjz7L65'].join('');
+        const _k = 'GlVGYHkr3WSBnllca54iNt0yFbjz7L65';
         const url = q === 'trending'
           ? `https://api.giphy.com/v1/gifs/trending?api_key=${_k}&limit=12&rating=g`
           : `https://api.giphy.com/v1/gifs/search?api_key=${_k}&q=${encodeURIComponent(q)}&limit=12&rating=g`;
@@ -932,6 +987,25 @@
       });
     });
 
+    // ── PERMANENT MODE DIALOG ──
+    const permDialogOverlay = document.getElementById('perm-dialog-overlay');
+    const permDialogOk      = document.getElementById('perm-dialog-ok');
+
+    function showPermDialog() {
+      permDialogOverlay.classList.remove('hidden');
+      permDialogOk.focus();
+    }
+
+    permDialogOk.addEventListener('click', async () => {
+      permDialogOverlay.classList.add('hidden');
+      const { email, displayName } = window._pendingPermJoin || {};
+      if (email && displayName) {
+        await joinEmailRoom(email, displayName);
+        await requestNotificationPermission();
+        if (window.AndroidBridge) window.AndroidBridge.onRoomJoined(safeRoom, myUsername);
+      }
+    });
+
     // ── MODE SWITCHING ──
     permanentTab.addEventListener('click', () => {
       permanentTab.classList.add('active');
@@ -971,6 +1045,19 @@
         forgotPasswordContainer.classList.add('hidden');
       }, 500);
     }
+
+    // ── PASSWORD SHOW/HIDE TOGGLE ──
+    document.getElementById('toggle-password').addEventListener('click', () => {
+      const pwInput = document.getElementById('password');
+      const btn = document.getElementById('toggle-password');
+      if (pwInput.type === 'password') {
+        pwInput.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        pwInput.type = 'password';
+        btn.textContent = '👁';
+      }
+    });
 
     forgotPasswordBtn.addEventListener('click', async () => {
       const email = document.getElementById('email').value.trim().toLowerCase();
@@ -1054,8 +1141,12 @@
       permanentLoginBtn.textContent = '[ LOGGING IN... ]';
       loginError.textContent = '';
       loginError.style.color = 'var(--red)';
+      permLoginInProgress = true;
 
       try {
+        // Persist auth across app restarts (like WhatsApp — stays logged in)
+        await setPersistence(auth, browserLocalPersistence);
+
         // Sign in with email/password
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -1082,8 +1173,10 @@
           await updateProfile(user, { displayName });
         }
 
-        // Find or create a random chat partner
-        await findChatPartner(user.uid, displayName);
+        // Show the "how it works" dialog before entering the room
+        // Store pending join info and show dialog
+        window._pendingPermJoin = { email, displayName };
+        showPermDialog();
 
       } catch (error) {
         console.error('Login error:', error);
@@ -1107,6 +1200,7 @@
         
         permanentLoginBtn.disabled = false;
         permanentLoginBtn.textContent = '[ LOGIN ]';
+        permLoginInProgress = false;
       }
     });
 
@@ -1175,129 +1269,175 @@
       }
     });
 
-    // Find a random chat partner for permanent mode
-    async function findChatPartner(userId, displayName) {
+    // ── PERMANENT MODE: email = shared room ──
+    // Everyone who logs in with the same email joins the same room.
+    // Room capacity = 50 base + 10 per member already present (grows as more join).
+    async function joinEmailRoom(email, displayName, silent = false) {
       try {
-        // Check if user already has an active chat
-        const userChatsRef = ref(db, `permanentChats/${userId}`);
-        const userChatSnap = await get(userChatsRef);
+        // Sanitize email into a valid Firebase key
+        const emailRoom = 'perm_' + email.replace(/\./g, '_').replace(/@/g, '__at__');
 
-        let chatId;
-        if (userChatSnap.exists()) {
-          // User has existing chat
-          chatId = userChatSnap.val().chatId;
-        } else {
-          // Find waiting user or create new waiting entry
-          const waitingRef = ref(db, 'waitingUsers');
-          const waitingSnap = await get(waitingRef);
+        myUsername = displayName;
+        safeRoom   = emailRoom;
+        messagesRef = ref(db, `rooms/${safeRoom}/messages`);
+        typingRef   = ref(db, `rooms/${safeRoom}/typing/${displayName}`);
+        presenceRef = ref(db, `rooms/${safeRoom}/presence/${displayName}`);
 
-          if (waitingSnap.exists()) {
-            // Match with first waiting user
-            const waitingUsers = waitingSnap.val();
-            const partnerId = Object.keys(waitingUsers)[0];
-            const partnerData = waitingUsers[partnerId];
+        // Check current members to calculate dynamic room limit
+        const presSnap = await get(ref(db, `rooms/${safeRoom}/presence`));
+        const currentMembers = presSnap.exists() ? Object.keys(presSnap.val()).length : 0;
+        const dynamicLimit = 50 + (currentMembers * 10);
 
-            // Create chat room
-            chatId = `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            
-            // Set up chat for both users
-            await set(ref(db, `permanentChats/${userId}`), { 
-              chatId, 
-              partnerId, 
-              partnerName: partnerData.displayName,
-              created: Date.now() 
-            });
-            await set(ref(db, `permanentChats/${partnerId}`), { 
-              chatId, 
-              partnerId: userId, 
-              partnerName: displayName,
-              created: Date.now() 
-            });
-
-            // Remove from waiting list
-            await remove(ref(db, `waitingUsers/${partnerId}`));
-
-            // Send system message
-            await push(ref(db, `rooms/${chatId}/messages`), {
-              system: true,
-              text: `You've been matched! Say hi to each other 👋`,
-              time: getTime(),
-              ts: serverTimestamp()
-            });
-
-          } else {
-            // No one waiting, add to waiting list
-            await set(ref(db, `waitingUsers/${userId}`), {
-              displayName,
-              timestamp: Date.now()
-            });
-
-            loginError.textContent = '> Waiting for a chat partner...';
-            permanentLoginBtn.textContent = '[ WAITING... ]';
-
-            // Listen for match
-            onValue(ref(db, `permanentChats/${userId}`), async (snap) => {
-              if (snap.exists()) {
-                chatId = snap.val().chatId;
-                await connectToPermanentChat(chatId, displayName, userId);
-              }
-            });
-            return;
-          }
+        if (currentMembers >= dynamicLimit) {
+          loginError.textContent = `> ERROR: Room is full (${currentMembers} members).`;
+          permanentLoginBtn.disabled = false;
+          permanentLoginBtn.textContent = '[ LOGIN ]';
+          return;
         }
 
-        // Connect to chat
-        await connectToPermanentChat(chatId, displayName, userId);
+        // Handle duplicate display name in room
+        let finalName = displayName;
+        if (presSnap.exists()) {
+          const names = Object.values(presSnap.val()).map(p => p.username);
+          if (names.includes(displayName)) {
+            let i = 2;
+            while (names.includes(`${displayName}${i}`)) i++;
+            finalName = `${displayName}${i}`;
+          }
+        }
+        myUsername = finalName;
+        typingRef  = ref(db, `rooms/${safeRoom}/typing/${finalName}`);
+        presenceRef = ref(db, `rooms/${safeRoom}/presence/${finalName}`);
+
+        // Set presence
+        await set(presenceRef, { username: finalName, color: myColor, joined: Date.now() });
+        onDisconnect(presenceRef).remove();
+
+        // Create room meta if first person
+        const metaRef = ref(db, `rooms/${safeRoom}/meta`);
+        const metaSnap = await get(metaRef);
+        if (!metaSnap.exists()) {
+          await set(metaRef, { created: Date.now(), admin: finalName, emailRoom: true });
+        }
+
+        // Show/hide buttons — permanent rooms support images & GIFs
+        imgBtn.style.display = '';
+        gifBtn.style.display = '';
+        if (shareBtn) shareBtn.style.display = 'none'; // no shareable link for email rooms
+        adminBadge.classList.add('hidden');
+
+        // Switch to chat screen
+        loginScreen.classList.add('hidden');
+        chatScreen.classList.remove('hidden');
+        roomLabel.textContent = `room: ${email}`;
+        msgInput.focus();
+
+        // Reset login button
+        permanentLoginBtn.disabled = false;
+        permanentLoginBtn.textContent = '[ LOGIN ]';
+
+        // Persist for auto-reconnect on next app open
+        localStorage.setItem('adp-perm-email', email);
+        localStorage.setItem('adp-perm-name', finalName);
+
+        // Load history first, then send join message so it appears at the bottom
+        const snapshot = await get(query(messagesRef, limitToLast(CONFIG.HISTORY_LIMIT)));
+        messagesEl.innerHTML = '';
+        messagesEl.appendChild(scrollBtn);
+        const seenKeys = new Set();
+        if (snapshot.exists()) {
+          snapshot.forEach(c => { seenKeys.add(c.key); renderMessage(c.val(), c.key); });
+        }
+
+        // Send join message AFTER history is rendered — only on fresh login, not auto-reconnect
+        if (!silent) {
+          const joinMsgRef = await push(messagesRef, {
+            system: true,
+            text: `${finalName} joined`,
+            time: getTime(),
+            ts: serverTimestamp()
+          });
+          seenKeys.add(joinMsgRef.key); // mark as seen so live listener doesn't re-render it
+        }
+
+        // Live messages
+        if (!listenerAttached) {
+          listenerAttached = true;
+          onChildAdded(query(messagesRef, limitToLast(CONFIG.LIVE_MESSAGES_LIMIT)), snap => {
+            if (seenKeys.has(snap.key)) return;
+            seenKeys.add(snap.key);
+            const emptyEl = document.getElementById('empty-state');
+            if (emptyEl) emptyEl.remove();
+            renderMessage(snap.val(), snap.key, true);
+            if (!document.hasFocus() || !isPageVisible) {
+              unreadCount++;
+              unreadBadge.textContent = unreadCount;
+              unreadBadge.style.display = 'inline';
+              document.title = `(${unreadCount}) ADP Chathouse`;
+              beep();
+            }
+          });
+        }
+
+        // Online count + user list
+        onValue(ref(db, `rooms/${safeRoom}/presence`), snap => {
+          const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+          onlineCount.textContent = `👥 ${count}`;
+          userList.innerHTML = '';
+          if (snap.exists()) {
+            Object.values(snap.val()).forEach(p => {
+              const item = document.createElement('div');
+              item.className = 'user-item';
+              const dot = document.createElement('div');
+              dot.className = 'user-dot';
+              dot.style.background = p.color || 'var(--green)';
+              const name = document.createElement('span');
+              name.style.color = p.color || 'var(--green)';
+              name.textContent = p.username;
+              item.appendChild(dot); item.appendChild(name);
+              userList.appendChild(item);
+            });
+          }
+        });
+
+        // Typing indicator
+        onValue(ref(db, `rooms/${safeRoom}/typing`), snap => {
+          if (!snap.exists()) { typingEl.textContent = ''; return; }
+          const typers = Object.keys(snap.val()).filter(u => u !== myUsername);
+          typingEl.textContent = typers.length ? `${typers.join(', ')} ${typers.length > 1 ? 'are' : 'is'} typing...` : '';
+        });
+
+        // Network pulse
+        if (networkCheckInterval) clearInterval(networkCheckInterval);
+        networkCheckInterval = setInterval(async () => {
+          try {
+            await get(ref(db, `rooms/${safeRoom}/meta/created`));
+            netPulse.classList.remove('offline');
+            reconnectBar.style.display = 'none';
+          } catch {
+            netPulse.classList.add('offline');
+            reconnectBar.style.display = 'block';
+          }
+        }, CONFIG.NETWORK_CHECK_INTERVAL);
+
+        reconnectBar.addEventListener('click', () => location.reload(), { once: true });
+
+        // Focus reset
+        if (!window._focusListenerAdded) {
+          window._focusListenerAdded = true;
+          window.addEventListener('focus', () => {
+            unreadCount = 0;
+            unreadBadge.style.display = 'none';
+            document.title = 'ADP Chathouse';
+          });
+        }
 
       } catch (error) {
-        console.error('Partner matching error:', error);
+        console.error('Email room join error:', error);
         loginError.textContent = `> ERROR: ${error.message}`;
         permanentLoginBtn.disabled = false;
         permanentLoginBtn.textContent = '[ LOGIN ]';
       }
-    }
-
-    // Connect to permanent chat room
-    async function connectToPermanentChat(chatId, displayName, userId) {
-      myUsername = displayName;
-      safeRoom = chatId;
-      messagesRef = ref(db, `rooms/${safeRoom}/messages`);
-      typingRef = ref(db, `rooms/${safeRoom}/typing/${displayName}`);
-      presenceRef = ref(db, `rooms/${safeRoom}/presence/${displayName}`);
-
-      // Set presence
-      await set(presenceRef, { username: displayName, color: myColor, joined: Date.now() });
-      onDisconnect(presenceRef).remove();
-
-      // Hide image button in permanent mode
-      imgBtn.style.display = 'none';
-      gifBtn.style.display = 'none';
-
-      // Switch to chat screen
-      loginScreen.style.display = 'none';
-      chatScreen.style.display = 'flex';
-      roomLabel.textContent = `Permanent Chat`;
-      msgInput.focus();
-
-      // Load messages
-      const messagesQuery = query(messagesRef, limitToLast(50));
-      onChildAdded(messagesQuery, (snap) => {
-        const msgData = snap.val();
-        renderMessage(msgData, snap.key, true);
-      });
-
-      // Online count
-      onValue(ref(db, `rooms/${safeRoom}/presence`), snap => {
-        const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-        onlineCount.textContent = count;
-      });
-
-      // Typing indicator
-      onValue(ref(db, `rooms/${safeRoom}/typing`), snap => {
-        if (!snap.exists()) { typingEl.textContent = ''; return; }
-        const typers = Object.keys(snap.val()).filter(u => u !== myUsername);
-        typingEl.textContent = typers.length ? `${typers.join(', ')} ${typers.length > 1 ? 'are' : 'is'} typing...` : '';
-      });
     }
 
     async function connect(silent = false) {
@@ -1478,14 +1618,16 @@
         const roomMeta = (await get(ref(db, `rooms/${safeRoom}/meta`))).val() || {};
         currentRoomAdmin = roomMeta.admin || '';
         isAdmin = currentRoomAdmin === username;
-        const isAdminBadge = isAdmin ? ' 👑 ADMIN' : ` | admin: ${currentRoomAdmin}`;
+        adminBadge.classList.toggle('hidden', !isAdmin);
+        const isAdminBadge = isAdmin ? '' : ` | admin: ${currentRoomAdmin}`;
         roomLabel.textContent = `room: ${room}${isAdminBadge}`;
         // watch for admin changes (transfer)
         onValue(ref(db, `rooms/${safeRoom}/meta/admin`), snap => {
           if (!snap.exists()) return;
           currentRoomAdmin = snap.val();
           isAdmin = currentRoomAdmin === myUsername;
-          const badge = isAdmin ? ' 👑 ADMIN' : ` | admin: ${currentRoomAdmin}`;
+          adminBadge.classList.toggle('hidden', !isAdmin);
+          const badge = isAdmin ? '' : ` | admin: ${currentRoomAdmin}`;
           roomLabel.textContent = `room: ${room}${badge}`;
         });
         loginScreen.classList.add('hidden');
@@ -1496,6 +1638,8 @@
         sessionStorage.setItem('adp-room', room);
         sessionStorage.setItem('adp-pass', password);
         localStorage.setItem('adp-username', username);
+        await requestNotificationPermission();
+        if (window.AndroidBridge) window.AndroidBridge.onRoomJoined(safeRoom, myUsername);
 
         if (!silent) {
           await push(messagesRef, { system:true, text:`${username} joined the room`, time:getTime(), ts:serverTimestamp() });
@@ -1661,6 +1805,10 @@
         // Cleanup local state first
         clearAllIntervals();
         sessionStorage.clear();
+        // Clear permanent session so user goes back to login on next open
+        localStorage.removeItem('adp-perm-email');
+        localStorage.removeItem('adp-perm-name');
+        if (window.AndroidBridge) window.AndroidBridge.onRoomLeft();
         
         // Remove presence indicators
         if (typingRef) await remove(typingRef).catch(() => {});
@@ -1674,12 +1822,13 @@
           ts: serverTimestamp() 
         }).catch(() => {});
 
-        // Admin transfer logic with race condition fix
+        // Admin transfer logic — skip for permanent email rooms (they persist)
         const metaSnap = await get(ref(db, `rooms/${safeRoom}/meta`));
+        const isEmailRoom = metaSnap.exists() && metaSnap.val().emailRoom === true;
         const currentAdmin = metaSnap.exists() ? metaSnap.val().admin : null;
         const isLeavingAdmin = currentAdmin === myUsername;
 
-        if (isLeavingAdmin) {
+        if (!isEmailRoom && isLeavingAdmin) {
           // Get fresh presence snapshot to avoid race condition
           const presSnap = await get(ref(db, `rooms/${safeRoom}/presence`));
           const others = presSnap.exists()
@@ -1707,14 +1856,15 @@
           }
           // No transfer — start countdown
           await set(ref(db, `rooms/${safeRoom}/meta/adminLeft`), Date.now());
-        } else {
-          // Non-admin: check if last person
+        } else if (!isEmailRoom) {
+          // Non-admin anonymous room: clean up if last person
           const presSnap = await get(ref(db, `rooms/${safeRoom}/presence`));
           const remaining = presSnap.exists() ? Object.keys(presSnap.val()).length : 0;
           if (remaining === 0) {
             await remove(ref(db, `rooms/${safeRoom}`)).catch(() => {});
           }
         }
+        // email rooms: just leave, room persists for others
       } catch(err) {
         console.error('Leave error:', err);
       } finally {
@@ -1997,11 +2147,12 @@
     document.getElementById('theme-toggle-chat').addEventListener('click',  () => { isLight=!isLight; applyTheme(); });
 
     // ── PWA SERVICE WORKER REGISTRATION ──
-    if ('serviceWorker' in navigator) {
+    // Only register on actual web (not Android WebView file:// context)
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log('Service Worker registered'))
-          .catch(err => console.log('Service Worker registration failed'));
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service Worker registered:', reg.scope))
+          .catch(err => console.log('Service Worker registration failed:', err));
       });
     }
   </script>
