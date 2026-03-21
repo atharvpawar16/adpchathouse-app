@@ -493,8 +493,8 @@
         document.title = 'ADP Chathouse';
         
         // Refresh presence when coming back to foreground
-        if (presenceRef && username) {
-          set(presenceRef, { username, color: myColor, joined: Date.now() }).catch(err => {
+        if (presenceRef && myUsername) {
+          set(presenceRef, { username: myUsername, color: myColor, joined: Date.now() }).catch(err => {
             console.log('Presence refresh failed:', err);
           });
         }
