@@ -9,6 +9,7 @@ No phone number. No social media. Just instant connection.
 
 [![Download APK](https://img.shields.io/badge/Download-APK%20v1.0.0-00ff41?style=for-the-badge&logo=android&logoColor=white&labelColor=000000)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0)
 
+![Build](https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg)
 ![Platform](https://img.shields.io/badge/Platform-Android%207.0+-00ff41?style=flat-square&labelColor=000000)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000)
 ![Language](https://img.shields.io/badge/Java-Android-orange?style=flat-square&labelColor=000000)
@@ -157,6 +158,12 @@ Get the latest release APK directly from the [Releases](https://github.com/athar
 Android & Web Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-atharvpawar16-181717?style=flat-square&logo=github)](https://github.com/atharvpawar16)
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
 
 ---
 
