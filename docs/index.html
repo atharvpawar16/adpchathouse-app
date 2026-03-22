@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="ADP Chathouse — Real-time Android chat app with terminal UI, anonymous rooms, and Firebase backend."/>
+  <title>ADP Chathouse</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#020c02;color:#00ff41;font-family:'Share Tech Mono','Courier New',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+    body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:9999;}
+    .container{max-width:700px;width:100%;text-align:center;}
+    .logo{font-size:2.5rem;letter-spacing:4px;text-shadow:0 0 20px #00ff41aa;margin-bottom:8px;}
+    .tagline{color:#00a028;font-size:1rem;margin-bottom:40px;}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:40px;}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:40px;text-align:left;}
+    .feature{border:1px solid #0a3a0a;padding:16px;background:#040f04;}
+    .feature-icon{font-size:1.5rem;margin-bottom:8px;}
+    .feature-title{color:#00ff41;font-size:0.85rem;letter-spacing:1px;margin-bottom:4px;}
+    .feature-desc{color:#00a028;font-size:0.75rem;line-height:1.5;}
+    .btn{display:inline-block;border:1px solid #00c832;color:#00ff41;padding:14px 32px;font-family:'Share Tech Mono',monospace;font-size:0.9rem;letter-spacing:3px;text-decoration:none;transition:all 0.2s;margin:8px;}
+    .btn:hover{background:#003b0f;box-shadow:0 0 12px #00ff4155;}
+    .btn-secondary{border-color:#0a3a0a;color:#00a028;}
+    .btn-secondary:hover{border-color:#00c832;color:#00ff41;}
+    footer{margin-top:40px;color:#005018;font-size:0.7rem;}
+    @keyframes blink{50%{opacity:0;}}
+    .blink::after{content:'_';animation:blink 1s step-end infinite;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">[ ADP Chathouse ]<span class="blink"></span></div>
+    <p class="tagline">&gt; Real-time group chat. No phone number. No noise. Just connection.</p>
+
+    <div class="badges">
+      <img src="https://img.shields.io/badge/Platform-Android%207.0+-00ff41?style=flat-square&labelColor=000000" alt="Platform"/>
+      <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000" alt="Version"/>
+      <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&labelColor=000000" alt="Firebase"/>
+      <img src="https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg" alt="Build"/>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔐</div>
+        <div class="feature-title">PERMANENT LOGIN</div>
+        <div class="feature-desc">Email-based auth. Same email = same room, always.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎭</div>
+        <div class="feature-title">ANONYMOUS MODE</div>
+        <div class="feature-desc">Pick a username and room code. No account needed.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">REAL-TIME SYNC</div>
+        <div class="feature-desc">Messages sync instantly via Firebase Realtime Database.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🖼️</div>
+        <div class="feature-title">IMAGE SHARING</div>
+        <div class="feature-desc">Send images up to 5MB directly in chat.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">😊</div>
+        <div class="feature-title">EMOJI & GIF</div>
+        <div class="feature-desc">Built-in emoji picker and GIF search.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌙</div>
+        <div class="feature-title">DARK / LIGHT</div>
+        <div class="feature-desc">Terminal dark mode with a clean light mode toggle.</div>
+      </div>
+    </div>
+
+    <a class="btn" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">[ DOWNLOAD APK ]</a>
+    <a class="btn btn-secondary" href="https://github.com/atharvpawar16/adpchathouse-app">[ VIEW ON GITHUB ]</a>
+
+    <footer>© 2026 Atharv Pawar · ADP Chathouse</footer>
+  </div>
+</body>
+</html>
