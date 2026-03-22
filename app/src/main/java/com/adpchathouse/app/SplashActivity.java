@@ -13,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
+    // Configurable animation timing constants
+    private static final long LINE_INTERVAL_MS = 600;   // delay between each line appearing
+    private static final long FADE_IN_MS       = 150;   // fade-in duration per line
+    private static final long TOTAL_DURATION_MS = 6000; // total splash duration before launch
+
     private TextView line1, line2, line3, line4, line5, line6, line7, line8, cursor;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -43,17 +48,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startTerminalAnimation() {
-        showLine(line1, 300);
-        showLine(line2, 900);
-        showLine(line3, 1500);
-        showLine(line4, 2100);
-        showLine(line5, 2700);
-        showLine(line6, 3300);
-        showLine(line7, 3900);
-        showLine(line8, 4500);
-        showLine(cursor, 5000);
+        showLine(line1, LINE_INTERVAL_MS);
+        showLine(line2, LINE_INTERVAL_MS * 2);
+        showLine(line3, LINE_INTERVAL_MS * 3);
+        showLine(line4, LINE_INTERVAL_MS * 4);
+        showLine(line5, LINE_INTERVAL_MS * 5);
+        showLine(line6, LINE_INTERVAL_MS * 6);
+        showLine(line7, LINE_INTERVAL_MS * 7);
+        showLine(line8, LINE_INTERVAL_MS * 8);
+        showLine(cursor, LINE_INTERVAL_MS * 8 + 500);
 
-        handler.postDelayed(this::blinkCursor, 5000);
+        handler.postDelayed(this::blinkCursor, LINE_INTERVAL_MS * 8 + 500);
 
         handler.postDelayed(() -> {
             if (isFinishing() || isDestroyed()) return;
@@ -61,14 +66,14 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }, 6000);
+        }, TOTAL_DURATION_MS);
     }
 
     private void showLine(final TextView textView, long delay) {
         handler.postDelayed(() -> {
             textView.setVisibility(View.VISIBLE);
             AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-            fadeIn.setDuration(150);
+            fadeIn.setDuration(FADE_IN_MS);
             textView.startAnimation(fadeIn);
         }, delay);
     }
