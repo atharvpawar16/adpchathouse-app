@@ -6,26 +6,27 @@
   <meta name="description" content="ADP Chathouse — Real-time Android chat app with terminal UI, anonymous rooms, and Firebase backend."/>
   <title>ADP Chathouse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #fafafa;
-      --bg2: #ffffff;
-      --surface: #f4f4f5;
-      --border: #e4e4e7;
-      --text: #09090b;
-      --text-muted: #71717a;
-      --text-subtle: #a1a1aa;
-      --accent: #18181b;
-      --accent-hover: #3f3f46;
-      --green: #16a34a;
-      --green-bg: #f0fdf4;
-      --green-border: #bbf7d0;
+      --bg: #f0f7f0;
+      --bg2: #e8f5e8;
+      --surface: #dceedd;
+      --border: #b8d4b8;
+      --border-bright: rgba(45,158,45,0.35);
+      --text: #003300;
+      --text-muted: #2d6e2d;
+      --text-subtle: #5a8f5a;
+      --green: #1a7a1a;
+      --green-dim: #2d9e2d;
+      --green-glow: 0 0 20px rgba(45,158,45,0.2);
+      --green-glow-strong: 0 0 40px rgba(45,158,45,0.35);
+      --accent: #003300;
       --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+      --shadow: 0 2px 8px rgba(0,80,0,0.08);
+      --shadow-md: 0 8px 24px rgba(0,80,0,0.12);
     }
 
     html { font-size: 16px; scroll-behavior: smooth; }
@@ -36,121 +37,233 @@
       font-family: 'Inter', sans-serif;
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* NAV */
+    /* scan lines overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent, transparent 3px,
+        rgba(0,80,0,0.012) 3px, rgba(0,80,0,0.012) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* floating bg orbs */
+    .orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(90px); opacity: 0.2;
+      pointer-events: none; z-index: 0;
+    }
+    .orb-1 { width: 500px; height: 500px; background: #4ade80; top: -150px; right: -150px; animation: floatA 10s ease-in-out infinite; }
+    .orb-2 { width: 350px; height: 350px; background: #86efac; bottom: 50px; left: -100px; animation: floatB 12s ease-in-out infinite; }
+    .orb-3 { width: 250px; height: 250px; background: #bbf7d0; top: 40%; left: 45%; animation: floatA 8s ease-in-out infinite 2s; }
+
+    /* ── Keyframes ── */
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.06); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(25px) scale(0.95); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 6px #2d9e2d88; }
+      50%       { opacity: 0.6; transform: scale(0.85); box-shadow: 0 0 12px #2d9e2dcc; }
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    @keyframes borderGlow {
+      0%, 100% { box-shadow: 0 0 8px rgba(45,158,45,0.2); }
+      50%       { box-shadow: 0 0 20px rgba(45,158,45,0.45); }
+    }
+    @keyframes heroEntrance {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(250,250,250,0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(232,245,232,0.88);
+      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px;
+      padding: 0 32px;
       display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
+      height: 60px;
+      animation: fadeInDown 0.5s ease both;
     }
     .nav-logo {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem; font-weight: 500;
-      color: var(--text); letter-spacing: 1px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem; color: var(--green);
+      letter-spacing: 2px;
+      text-shadow: 0 0 14px rgba(45,158,45,0.5);
     }
-    .nav-links { display: flex; gap: 8px; }
+    .nav-logo::after { content: '_'; animation: blink 1s step-end infinite; }
+    .nav-links { display: flex; gap: 6px; }
     .nav-link {
       color: var(--text-muted); text-decoration: none;
-      font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;
-      transition: all 0.15s;
+      font-size: 0.78rem; padding: 7px 16px; border-radius: 8px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
     }
-    .nav-link:hover { background: var(--surface); color: var(--text); }
+    .nav-link:hover {
+      border-color: var(--border-bright);
+      background: var(--surface);
+      color: var(--green);
+      box-shadow: var(--green-glow);
+    }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      max-width: 860px; margin: 0 auto;
+      position: relative; z-index: 1;
+      max-width: 960px; margin: 0 auto;
       padding: 80px 24px 64px;
       text-align: center;
+      animation: heroEntrance 0.7s ease both 0.1s;
     }
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--green-bg); border: 1px solid var(--green-border);
-      color: var(--green); font-size: 0.75rem; font-weight: 500;
-      padding: 4px 12px; border-radius: 999px; margin-bottom: 24px;
-      letter-spacing: 0.5px;
+      display: inline-block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 2px;
+      color: var(--green-dim);
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 20px; padding: 5px 14px;
+      margin-bottom: 24px;
+      animation: borderGlow 3s ease-in-out infinite;
     }
-    .hero-badge::before { content: '●'; font-size: 0.6rem; }
-    h1 {
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
       font-weight: 700; letter-spacing: -0.03em;
       line-height: 1.15; margin-bottom: 20px;
-      color: var(--text);
     }
-    h1 span {
-      background: linear-gradient(135deg, #16a34a, #15803d);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--green), var(--green-dim), #4ade80, var(--green));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
     }
     .hero-sub {
-      font-size: 1.1rem; color: var(--text-muted);
-      max-width: 520px; margin: 0 auto 36px;
-      font-weight: 400;
+      color: var(--text-muted); font-size: 1rem;
+      max-width: 560px; margin: 0 auto 32px;
+      line-height: 1.7;
     }
-    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; margin-bottom: 32px;
+    }
     .btn-primary {
-      background: var(--accent); color: #fff;
-      padding: 12px 24px; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 500;
-      text-decoration: none; transition: all 0.15s;
-      box-shadow: var(--shadow);
+      background: var(--accent); color: #c8e6c8;
+      padding: 13px 28px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 600;
+      text-decoration: none;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;
+      border: 1px solid #002800;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(0,80,0,0.25);
     }
-    .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .btn-primary:hover {
+      background: #001a00;
+      box-shadow: 0 6px 24px rgba(0,80,0,0.4);
+      transform: translateY(-2px);
+    }
     .btn-outline {
-      background: var(--bg2); color: var(--text);
-      padding: 12px 24px; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 500;
-      text-decoration: none; border: 1px solid var(--border);
-      transition: all 0.15s; box-shadow: var(--shadow);
+      background: transparent; color: var(--green);
+      padding: 13px 28px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 500;
+      text-decoration: none;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;
+      border: 1px solid var(--border-bright);
+      transition: all 0.2s;
     }
-    .btn-outline:hover { border-color: #a1a1aa; box-shadow: var(--shadow-md); transform: translateY(-1px); }
-
-    /* BADGES */
+    .btn-outline:hover {
+      background: var(--surface);
+      border-color: var(--green-dim);
+      box-shadow: var(--green-glow);
+      transform: translateY(-2px);
+    }
     .badges {
       display: flex; flex-wrap: wrap; gap: 8px;
-      justify-content: center; margin-top: 40px;
+      justify-content: center;
+      animation: fadeIn 0.8s ease both 0.4s;
     }
+    .badges img { height: 20px; border-radius: 4px; }
 
-    /* DIVIDER */
+    /* ── DIVIDER ── */
     .divider { height: 1px; background: var(--border); margin: 0 24px; }
 
-    /* FEATURES */
-    .section { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+    /* ── SECTIONS ── */
+    .section {
+      position: relative; z-index: 1;
+      max-width: 960px; margin: 0 auto;
+      padding: 64px 24px;
+    }
     .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem; font-weight: 500;
-      color: var(--green); letter-spacing: 2px;
-      text-transform: uppercase; margin-bottom: 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem; color: var(--green-dim);
+      letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;
     }
     .section-title {
       font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700; letter-spacing: -0.02em;
-      margin-bottom: 8px;
+      font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px;
     }
-    .section-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+    .section-sub { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 40px; }
 
+    /* ── FEATURES ── */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
     .feature-card {
       background: var(--bg2);
       border: 1px solid var(--border);
+      border-left: 3px solid var(--green-dim);
       border-radius: var(--radius);
-      padding: 24px;
-      transition: all 0.2s;
+      padding: 22px;
+      transition: all 0.25s;
       box-shadow: var(--shadow);
     }
-    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: #d4d4d8; }
-    .feature-icon { font-size: 1.6rem; margin-bottom: 12px; }
-    .feature-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .feature-card:hover {
+      box-shadow: var(--shadow-md), var(--green-glow);
+      transform: translateY(-3px);
+      border-left-color: var(--green);
+    }
+    .feature-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .feature-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem; font-weight: 400;
+      letter-spacing: 1px; margin-bottom: 6px; color: var(--green);
+    }
     .feature-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* TECH STACK */
+    /* ── STACK ── */
     .stack-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -158,60 +271,115 @@
     }
     .stack-card {
       background: var(--bg2); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px;
+      border-radius: var(--radius); padding: 18px;
       box-shadow: var(--shadow);
+      transition: all 0.2s;
     }
-    .stack-layer { font-size: 0.7rem; font-weight: 500; color: var(--text-subtle); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
-    .stack-tech { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .stack-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .stack-layer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem; color: var(--text-subtle);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .stack-tech { font-size: 0.88rem; font-weight: 600; color: var(--text); }
 
-    /* CTA */
+    /* ── CTA ── */
     .cta {
-      background: var(--accent); color: #fff;
-      border-radius: 16px; padding: 56px 32px;
-      text-align: center; margin: 0 24px 64px;
-      max-width: 912px; margin-left: auto; margin-right: auto;
-    }
-    .cta h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
-    .cta p { color: #a1a1aa; margin-bottom: 28px; font-size: 0.95rem; }
-    .btn-white {
-      background: #fff; color: var(--accent);
-      padding: 12px 28px; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 600;
-      text-decoration: none; transition: all 0.15s;
-      display: inline-block; margin: 6px;
-    }
-    .btn-white:hover { background: #f4f4f5; transform: translateY(-1px); }
-    .btn-ghost {
-      background: transparent; color: #d4d4d8;
-      padding: 12px 28px; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 500;
-      text-decoration: none; border: 1px solid #3f3f46;
-      transition: all 0.15s; display: inline-block; margin: 6px;
-    }
-    .btn-ghost:hover { border-color: #71717a; color: #fff; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px;
+      position: relative; z-index: 1;
+      background: var(--accent); color: #e0f0e0;
+      border-radius: 14px; padding: 56px 32px;
       text-align: center;
-      color: var(--text-subtle);
-      font-size: 0.8rem;
+      max-width: 912px; margin: 0 auto 64px;
+      border: 1px solid #002800;
+      box-shadow: 0 8px 32px rgba(0,80,0,0.2);
+      animation: borderGlow 4s ease-in-out infinite;
     }
-    footer a { color: var(--text-muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+    .cta h2 {
+      font-size: 1.8rem; font-weight: 700;
+      margin-bottom: 10px; letter-spacing: -0.02em;
+    }
+    .cta p { color: #669966; margin-bottom: 28px; font-size: 0.92rem; }
+    .btn-white {
+      background: var(--bg); color: var(--accent);
+      padding: 12px 28px; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+      display: inline-block; margin: 6px;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;
+    }
+    .btn-white:hover { background: #d8ecd8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,80,0,0.2); }
+    .btn-ghost {
+      background: transparent; color: #669966;
+      padding: 12px 28px; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; border: 1px solid #226622;
+      transition: all 0.2s; display: inline-block; margin: 6px;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 2px;
+    }
+    .btn-ghost:hover { border-color: #669966; color: #e0f0e0; transform: translateY(-2px); }
 
+    /* ── SOCIAL ── */
+    .social-section {
+      display: flex; justify-content: center;
+      padding: 0 24px 48px; position: relative; z-index: 1;
+    }
+    .insta-card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 24px;
+      text-decoration: none; color: var(--text);
+      transition: all 0.25s;
+      box-shadow: var(--shadow);
+      min-width: 260px;
+    }
+    .insta-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md), 0 0 20px rgba(188,24,136,0.15);
+      border-color: rgba(188,24,136,0.35);
+    }
+    .insta-icon { flex-shrink: 0; display: flex; align-items: center; }
+    .insta-info { display: flex; flex-direction: column; flex: 1; }
+    .insta-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 2px;
+      color: var(--text-subtle); text-transform: uppercase;
+    }
+    .insta-handle { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .insta-arrow { font-size: 1.1rem; color: var(--text-subtle); transition: transform 0.2s; }
+    .insta-card:hover .insta-arrow { transform: translate(2px, -2px); color: #cc2366; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px; text-align: center;
+      color: var(--text-subtle); font-size: 0.78rem;
+      font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;
+    }
+    footer a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--green); }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
+      nav { padding: 0 16px; }
       .hero { padding: 48px 16px 40px; }
       .section { padding: 48px 16px; }
       .cta { padding: 40px 20px; margin: 0 16px 48px; }
+      .hero h1 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
   <nav>
-    <span class="nav-logo">ADP Chathouse</span>
+    <span class="nav-logo">[ ADP Chathouse ]</span>
     <div class="nav-links">
       <a class="nav-link" href="https://github.com/atharvpawar16/adpchathouse-app">GitHub</a>
       <a class="nav-link" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download</a>
@@ -223,12 +391,12 @@
     <h1>Real-time chat,<br/><span>no friction</span></h1>
     <p class="hero-sub">ADP Chathouse is an Android chat app with anonymous rooms, permanent accounts, and a terminal-inspired UI — powered by Firebase.</p>
     <div class="hero-actions">
-      <a class="btn-primary" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download APK</a>
-      <a class="btn-outline" href="https://github.com/atharvpawar16/adpchathouse-app">View on GitHub</a>
+      <a class="btn-primary" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">[ DOWNLOAD APK ]</a>
+      <a class="btn-outline" href="https://github.com/atharvpawar16/adpchathouse-app">[ VIEW ON GITHUB ]</a>
     </div>
     <div class="badges">
-      <img src="https://img.shields.io/badge/Platform-Android%207.0+-18181b?style=flat-square" alt="Platform"/>
-      <img src="https://img.shields.io/badge/Version-1.0.0-18181b?style=flat-square" alt="Version"/>
+      <img src="https://img.shields.io/badge/Platform-Android%207.0+-006400?style=flat-square&labelColor=e0f0e0" alt="Platform"/>
+      <img src="https://img.shields.io/badge/Version-1.0.0-006400?style=flat-square&labelColor=e0f0e0" alt="Version"/>
       <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase"/>
       <img src="https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg" alt="Build"/>
     </div>
@@ -237,38 +405,38 @@
   <div class="divider"></div>
 
   <section class="section">
-    <div class="section-label">Features</div>
+    <div class="section-label">// Features</div>
     <h2 class="section-title">Everything you need to chat</h2>
     <p class="section-sub">No sign-up friction. Jump in with a room code or create a permanent account.</p>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">🔐</div>
-        <div class="feature-title">Permanent Login</div>
+        <div class="feature-title">PERMANENT LOGIN</div>
         <div class="feature-desc">Email-based auth via Firebase. Same email = same room, always. Stay logged in across sessions.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🎭</div>
-        <div class="feature-title">Anonymous Mode</div>
+        <div class="feature-title">ANONYMOUS MODE</div>
         <div class="feature-desc">Pick a username and room code — no account needed. Optional room passwords for privacy.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">⚡</div>
-        <div class="feature-title">Real-time Sync</div>
+        <div class="feature-title">REAL-TIME SYNC</div>
         <div class="feature-desc">Messages sync instantly across all connected users via Firebase Realtime Database.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🖼️</div>
-        <div class="feature-title">Image Sharing</div>
+        <div class="feature-title">IMAGE SHARING</div>
         <div class="feature-desc">Send images up to 5MB directly in chat. Full-screen viewer with zoom and pan.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">😊</div>
-        <div class="feature-title">Emoji & GIF</div>
+        <div class="feature-title">EMOJI & GIF</div>
         <div class="feature-desc">Built-in emoji picker, GIF search, message reactions, and reply/quote support.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">👑</div>
-        <div class="feature-title">Admin Controls</div>
+        <div class="feature-title">ADMIN CONTROLS</div>
         <div class="feature-desc">Room creator gets admin badge and can delete any message to moderate the room.</div>
       </div>
     </div>
@@ -277,32 +445,32 @@
   <div class="divider"></div>
 
   <section class="section">
-    <div class="section-label">Tech Stack</div>
+    <div class="section-label">// Tech Stack</div>
     <h2 class="section-title">Built with modern tools</h2>
     <p class="section-sub">Native Android wrapper around a Firebase-powered web app.</p>
     <div class="stack-grid">
       <div class="stack-card">
-        <div class="stack-layer">Android</div>
+        <div class="stack-layer">// Android</div>
         <div class="stack-tech">Java · AndroidX · WebView</div>
       </div>
       <div class="stack-card">
-        <div class="stack-layer">Frontend</div>
+        <div class="stack-layer">// Frontend</div>
         <div class="stack-tech">HTML5 · CSS3 · Vanilla JS</div>
       </div>
       <div class="stack-card">
-        <div class="stack-layer">Auth</div>
+        <div class="stack-layer">// Auth</div>
         <div class="stack-tech">Firebase Authentication</div>
       </div>
       <div class="stack-card">
-        <div class="stack-layer">Database</div>
+        <div class="stack-layer">// Database</div>
         <div class="stack-tech">Firebase Realtime DB</div>
       </div>
       <div class="stack-card">
-        <div class="stack-layer">Min SDK</div>
+        <div class="stack-layer">// Min SDK</div>
         <div class="stack-tech">Android 7.0 (API 24)</div>
       </div>
       <div class="stack-card">
-        <div class="stack-layer">Target SDK</div>
+        <div class="stack-layer">// Target SDK</div>
         <div class="stack-tech">Android 14 (API 34)</div>
       </div>
     </div>
@@ -310,13 +478,39 @@
 
   <div class="cta">
     <h2>Ready to chat?</h2>
-    <p>Download the APK and join a room in seconds. No phone number required.</p>
-    <a class="btn-white" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download v1.0.0</a>
-    <a class="btn-ghost" href="https://github.com/atharvpawar16/adpchathouse-app">View Source</a>
+    <p>&gt; Download the APK and join a room in seconds. No phone number required.</p>
+    <a class="btn-white" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">[ DOWNLOAD v1.0.0 ]</a>
+    <a class="btn-ghost" href="https://github.com/atharvpawar16/adpchathouse-app">[ VIEW SOURCE ]</a>
+  </div>
+
+  <div class="social-section">
+    <a class="insta-card" href="https://instagram.com/atha_rvpawar16" target="_blank" rel="noopener noreferrer">
+      <div class="insta-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig)" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4.5" stroke="url(#ig)" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="url(#ig)"/>
+          <defs>
+            <linearGradient id="ig" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f09433"/>
+              <stop offset="25%" stop-color="#e6683c"/>
+              <stop offset="50%" stop-color="#dc2743"/>
+              <stop offset="75%" stop-color="#cc2366"/>
+              <stop offset="100%" stop-color="#bc1888"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="insta-info">
+        <span class="insta-label">Instagram</span>
+        <span class="insta-handle">@atha_rvpawar16</span>
+      </div>
+      <div class="insta-arrow">↗</div>
+    </a>
   </div>
 
   <footer>
-    <p>© 2026 <a href="https://github.com/atharvpawar16">Atharv Pawar</a> · ADP Chathouse · All rights reserved</p>
+    &gt; © 2026 <a href="https://github.com/atharvpawar16">Atharv Pawar</a> · ADP Chathouse · All rights reserved
   </footer>
 
 </body>
