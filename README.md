@@ -1,42 +1,60 @@
+<div align="center">
+
+<img src="app icon.png" alt="ADP Chathouse" width="120" />
+
 # ADP Chathouse
 
-![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Android-00ff41?style=flat-square&labelColor=000000)
-![Status](https://img.shields.io/badge/Status-Active-00ff41?style=flat-square&labelColor=000000)
-![Language](https://img.shields.io/badge/Android-Java-orange?style=flat-square&labelColor=000000)
-![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square&labelColor=000000)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000)
-![PRs](https://img.shields.io/badge/PRs-Not%20Accepting-lightgrey?style=flat-square&labelColor=000000)
-![Made With](https://img.shields.io/badge/Made%20With-Java%20%7C%20JS-00ff41?style=flat-square&labelColor=000000)
-![Realtime](https://img.shields.io/badge/Realtime-Yes-00ff41?style=flat-square&labelColor=000000)
-![Auth](https://img.shields.io/badge/Auth-Email%20%7C%20Anonymous-00ff41?style=flat-square&labelColor=000000)
-![Theme](https://img.shields.io/badge/Theme-Dark%20%7C%20Light-00ff41?style=flat-square&labelColor=000000)
+**A real-time group chat app with a retro terminal aesthetic.**
+No phone number. No social media. Just instant connection.
 
-> A real-time chat platform built for instant human connection — no phone number, no social media, no noise.
+[![Download APK](https://img.shields.io/badge/Download-APK%20v1.0.0-00ff41?style=for-the-badge&logo=android&logoColor=white&labelColor=000000)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0)
+
+![Platform](https://img.shields.io/badge/Platform-Android%207.0+-00ff41?style=flat-square&labelColor=000000)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000)
+![Language](https://img.shields.io/badge/Java-Android-orange?style=flat-square&labelColor=000000)
+![Firebase](https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&labelColor=000000)
+![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square&labelColor=000000)
+
+</div>
 
 ---
 
-## Overview
+## Screenshots
 
-ADP Chathouse is a cross-platform chat application available on both web and Android. It focuses on simplicity and speed — users can jump into a conversation within seconds using either a verified account or a completely anonymous session.
+> Terminal dark mode · Light mode · Anonymous room · Permanent login
 
-The app is built with a terminal-inspired UI, real-time sync, and a lightweight Android wrapper that keeps the experience smooth and native-feeling on mobile.
+<!-- Add screenshots here once available -->
+<div align="center">
+<i>Screenshots coming soon</i>
+</div>
+
+---
+
+## What is ADP Chathouse?
+
+ADP Chathouse is a real-time group chat application for Android. It wraps a Firebase-powered web app inside a native Android WebView, giving it a smooth, app-like feel with full offline resilience and push-ready architecture.
+
+The UI is inspired by retro terminal aesthetics — monospace fonts, green-on-black, scan lines — with a clean light mode for everyday use.
 
 ---
 
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| Secure Login | Email-based authentication with verification |
-| Anonymous Mode | Join any room instantly with a username and room code |
-| Real-time Messaging | Messages sync instantly across all connected users |
-| Image Sharing | Send images directly inside the chat |
-| Emoji & GIF Support | Built-in emoji picker and GIF search |
-| Private Rooms | Lock any room with a password |
-| Admin Controls | Room admin system with moderation tools |
-| Typing Indicators | Live typing status for all users |
-| Dark / Light Theme | Terminal-style dark mode with a clean light mode |
-| Android App | Native Android wrapper with background keep-alive |
+| | Feature | Details |
+|---|---------|---------|
+| 🔐 | Permanent Login | Email + password via Firebase Auth. Same email = same room, always. |
+| 🎭 | Anonymous Mode | Pick a username and room code — no account needed. |
+| 🔒 | Private Rooms | Optional room passwords for anonymous rooms. |
+| ⚡ | Real-time Sync | Messages sync instantly via Firebase Realtime Database. |
+| 🖼️ | Image Sharing | Send images up to 5MB directly in chat. |
+| 😊 | Emoji & GIF | Built-in emoji picker + GIF search. |
+| 💬 | Reply & React | Quote messages and react with emoji. |
+| ✍️ | Typing Indicators | Live typing status for all users in the room. |
+| 👑 | Admin Controls | Room creator can delete messages and moderate. |
+| 🌙 | Dark / Light Theme | Terminal dark mode + clean light mode toggle. |
+| 📶 | Network Pulse | Live connection indicator with auto-reconnect. |
+| 🔔 | Unread Badge | Unread message count when scrolled up. |
+| 🔗 | Room Sharing | Share room links directly from the app. |
 
 ---
 
@@ -44,11 +62,13 @@ The app is built with a terminal-inspired UI, real-time sync, and a lightweight 
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | HTML5, CSS3, Vanilla JavaScript |
-| Backend | Cloud Realtime Database |
-| Authentication | Cloud Auth Service |
-| Android | Java — Native WebView |
-| Hosting | Cloud Hosting |
+| Android | Java · Native WebView · AndroidX |
+| Frontend | HTML5 · CSS3 · Vanilla JavaScript |
+| Auth | Firebase Authentication |
+| Database | Firebase Realtime Database |
+| Hosting | Firebase Hosting |
+| Min SDK | Android 7.0 (API 24) |
+| Target SDK | Android 14 (API 34) |
 
 ---
 
@@ -57,16 +77,19 @@ The app is built with a terminal-inspired UI, real-time sync, and a lightweight 
 ```
 adpchathouse-app/
 ├── app/
-│   └── src/
-│       └── main/
-│           ├── java/com/adpchathouse/app/
-│           │   ├── MainActivity.java        # WebView host activity
-│           │   ├── SplashActivity.java      # Animated splash screen
-│           │   └── KeepAliveService.java    # Background service
-│           ├── assets/
-│           │   └── index.html               # Web app entry point
-│           ├── res/                         # Android resources
-│           └── AndroidManifest.xml
+│   └── src/main/
+│       ├── java/com/adpchathouse/app/
+│       │   ├── MainActivity.java       # WebView host + file chooser
+│       │   ├── SplashActivity.java     # Animated splash screen
+│       │   └── AndroidBridge.java      # JS ↔ Android interface
+│       ├── assets/
+│       │   ├── index.html              # Full web app (UI + Firebase logic)
+│       │   ├── manifest.json           # PWA manifest
+│       │   └── service-worker.js       # Offline caching
+│       ├── res/                        # Icons, drawables, layouts, themes
+│       └── AndroidManifest.xml
+├── functions/
+│   └── index.js                        # Cloud Functions placeholder
 ├── build.gradle
 ├── settings.gradle
 └── README.md
@@ -74,27 +97,66 @@ adpchathouse-app/
 
 ---
 
-## Platforms
+## Getting Started
 
-- Web — runs in any modern browser
-- Android — native APK with full mobile support
+### Prerequisites
+- Android Studio Hedgehog or newer
+- JDK 17+
+- A Firebase project with Realtime Database and Authentication enabled
+
+### Setup
+
+1. Clone the repo
+   ```bash
+   git clone https://github.com/atharvpawar16/adpchathouse-app.git
+   ```
+
+2. Open in Android Studio
+
+3. Add your `google-services.json` to `app/` (not included — create your own Firebase project)
+
+4. Update the Firebase config inside `app/src/main/assets/index.html` with your own project credentials
+
+5. Build and run on a device or emulator
 
 ---
 
-## Current Status
+## Download
 
-Active development — core chat system complete, additional features in progress.
+Get the latest release APK directly from the [Releases](https://github.com/atharvpawar16/adpchathouse-app/releases) page.
+
+> Requires Android 7.0 or higher. Enable "Install from unknown sources" in your device settings.
+
+---
+
+## Security Notes
+
+- Firebase API keys in the frontend are public by design — security is enforced via Firebase Security Rules
+- The signing keystore is excluded from this repository
+- `google-services.json` is excluded — you must provide your own
+
+---
+
+## Roadmap
+
+- [ ] Push notifications via FCM
+- [ ] Message search
+- [ ] Voice messages
+- [ ] User profiles and avatars
+- [ ] End-to-end encryption
 
 ---
 
 ## Developer
 
 **Atharv Pawar**
-Android & Web Developer | Full Stack Analyst
+Android & Web Developer
+
+[![GitHub](https://img.shields.io/badge/GitHub-atharvpawar16-181717?style=flat-square&logo=github)](https://github.com/atharvpawar16)
 
 ---
 
 ## License
 
-This project is personal and proprietary.
-All rights reserved © 2026 Atharv Pawar. Unauthorized use, copying, or distribution is not permitted.
+© 2026 Atharv Pawar. All rights reserved.
+This project is personal and proprietary. Unauthorized use, copying, or distribution is not permitted.
