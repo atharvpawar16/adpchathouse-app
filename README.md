@@ -160,6 +160,15 @@ Android & Web Developer
 
 ---
 
+## Contributing
+
+This is a personal project and PRs are not actively accepted. However, feel free to:
+- Open an issue if you find a bug
+- Fork the repo and build your own version
+- Star the repo if you find it useful
+
+---
+
 ## License
 
 © 2026 Atharv Pawar. All rights reserved.
