@@ -5,78 +5,319 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="ADP Chathouse — Real-time Android chat app with terminal UI, anonymous rooms, and Firebase backend."/>
   <title>ADP Chathouse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#020c02;color:#00ff41;font-family:'Share Tech Mono','Courier New',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
-    body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);pointer-events:none;z-index:9999;}
-    .container{max-width:700px;width:100%;text-align:center;}
-    .logo{font-size:2.5rem;letter-spacing:4px;text-shadow:0 0 20px #00ff41aa;margin-bottom:8px;}
-    .tagline{color:#00a028;font-size:1rem;margin-bottom:40px;}
-    .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:40px;}
-    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:40px;text-align:left;}
-    .feature{border:1px solid #0a3a0a;padding:16px;background:#040f04;}
-    .feature-icon{font-size:1.5rem;margin-bottom:8px;}
-    .feature-title{color:#00ff41;font-size:0.85rem;letter-spacing:1px;margin-bottom:4px;}
-    .feature-desc{color:#00a028;font-size:0.75rem;line-height:1.5;}
-    .btn{display:inline-block;border:1px solid #00c832;color:#00ff41;padding:14px 32px;font-family:'Share Tech Mono',monospace;font-size:0.9rem;letter-spacing:3px;text-decoration:none;transition:all 0.2s;margin:8px;}
-    .btn:hover{background:#003b0f;box-shadow:0 0 12px #00ff4155;}
-    .btn-secondary{border-color:#0a3a0a;color:#00a028;}
-    .btn-secondary:hover{border-color:#00c832;color:#00ff41;}
-    footer{margin-top:40px;color:#005018;font-size:0.7rem;}
-    @keyframes blink{50%{opacity:0;}}
-    .blink::after{content:'_';animation:blink 1s step-end infinite;}
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #fafafa;
+      --bg2: #ffffff;
+      --surface: #f4f4f5;
+      --border: #e4e4e7;
+      --text: #09090b;
+      --text-muted: #71717a;
+      --text-subtle: #a1a1aa;
+      --accent: #18181b;
+      --accent-hover: #3f3f46;
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --green-border: #bbf7d0;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,250,250,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text); letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-link {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.85rem; padding: 6px 12px; border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .nav-link:hover { background: var(--surface); color: var(--text); }
+
+    /* HERO */
+    .hero {
+      max-width: 860px; margin: 0 auto;
+      padding: 80px 24px 64px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      color: var(--green); font-size: 0.75rem; font-weight: 500;
+      padding: 4px 12px; border-radius: 999px; margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.6rem; }
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.15; margin-bottom: 20px;
+      color: var(--text);
+    }
+    h1 span {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: var(--text-muted);
+      max-width: 520px; margin: 0 auto 36px;
+      font-weight: 400;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 12px 24px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; transition: all 0.15s;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .btn-outline {
+      background: var(--bg2); color: var(--text);
+      padding: 12px 24px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; border: 1px solid var(--border);
+      transition: all 0.15s; box-shadow: var(--shadow);
+    }
+    .btn-outline:hover { border-color: #a1a1aa; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+    /* BADGES */
+    .badges {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; margin-top: 40px;
+    }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--border); margin: 0 24px; }
+
+    /* FEATURES */
+    .section { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--green); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .section-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+    }
+    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: #d4d4d8; }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .feature-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .feature-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* TECH STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .stack-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .stack-layer { font-size: 0.7rem; font-weight: 500; color: var(--text-subtle); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .stack-tech { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+
+    /* CTA */
+    .cta {
+      background: var(--accent); color: #fff;
+      border-radius: 16px; padding: 56px 32px;
+      text-align: center; margin: 0 24px 64px;
+      max-width: 912px; margin-left: auto; margin-right: auto;
+    }
+    .cta h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .cta p { color: #a1a1aa; margin-bottom: 28px; font-size: 0.95rem; }
+    .btn-white {
+      background: #fff; color: var(--accent);
+      padding: 12px 28px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none; transition: all 0.15s;
+      display: inline-block; margin: 6px;
+    }
+    .btn-white:hover { background: #f4f4f5; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: #d4d4d8;
+      padding: 12px 28px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; border: 1px solid #3f3f46;
+      transition: all 0.15s; display: inline-block; margin: 6px;
+    }
+    .btn-ghost:hover { border-color: #71717a; color: #fff; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      color: var(--text-subtle);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--text-muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .hero { padding: 48px 16px 40px; }
+      .section { padding: 48px 16px; }
+      .cta { padding: 40px 20px; margin: 0 16px 48px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo">[ ADP Chathouse ]<span class="blink"></span></div>
-    <p class="tagline">&gt; Real-time group chat. No phone number. No noise. Just connection.</p>
 
+  <nav>
+    <span class="nav-logo">ADP Chathouse</span>
+    <div class="nav-links">
+      <a class="nav-link" href="https://github.com/atharvpawar16/adpchathouse-app">GitHub</a>
+      <a class="nav-link" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">v1.0.0 now available</div>
+    <h1>Real-time chat,<br/><span>no friction</span></h1>
+    <p class="hero-sub">ADP Chathouse is an Android chat app with anonymous rooms, permanent accounts, and a terminal-inspired UI — powered by Firebase.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download APK</a>
+      <a class="btn-outline" href="https://github.com/atharvpawar16/adpchathouse-app">View on GitHub</a>
+    </div>
     <div class="badges">
-      <img src="https://img.shields.io/badge/Platform-Android%207.0+-00ff41?style=flat-square&labelColor=000000" alt="Platform"/>
-      <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000" alt="Version"/>
-      <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&labelColor=000000" alt="Firebase"/>
+      <img src="https://img.shields.io/badge/Platform-Android%207.0+-18181b?style=flat-square" alt="Platform"/>
+      <img src="https://img.shields.io/badge/Version-1.0.0-18181b?style=flat-square" alt="Version"/>
+      <img src="https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&logoColor=black" alt="Firebase"/>
       <img src="https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg" alt="Build"/>
     </div>
+  </section>
 
-    <div class="features">
-      <div class="feature">
+  <div class="divider"></div>
+
+  <section class="section">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need to chat</h2>
+    <p class="section-sub">No sign-up friction. Jump in with a room code or create a permanent account.</p>
+    <div class="features-grid">
+      <div class="feature-card">
         <div class="feature-icon">🔐</div>
-        <div class="feature-title">PERMANENT LOGIN</div>
-        <div class="feature-desc">Email-based auth. Same email = same room, always.</div>
+        <div class="feature-title">Permanent Login</div>
+        <div class="feature-desc">Email-based auth via Firebase. Same email = same room, always. Stay logged in across sessions.</div>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <div class="feature-icon">🎭</div>
-        <div class="feature-title">ANONYMOUS MODE</div>
-        <div class="feature-desc">Pick a username and room code. No account needed.</div>
+        <div class="feature-title">Anonymous Mode</div>
+        <div class="feature-desc">Pick a username and room code — no account needed. Optional room passwords for privacy.</div>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <div class="feature-icon">⚡</div>
-        <div class="feature-title">REAL-TIME SYNC</div>
-        <div class="feature-desc">Messages sync instantly via Firebase Realtime Database.</div>
+        <div class="feature-title">Real-time Sync</div>
+        <div class="feature-desc">Messages sync instantly across all connected users via Firebase Realtime Database.</div>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <div class="feature-icon">🖼️</div>
-        <div class="feature-title">IMAGE SHARING</div>
-        <div class="feature-desc">Send images up to 5MB directly in chat.</div>
+        <div class="feature-title">Image Sharing</div>
+        <div class="feature-desc">Send images up to 5MB directly in chat. Full-screen viewer with zoom and pan.</div>
       </div>
-      <div class="feature">
+      <div class="feature-card">
         <div class="feature-icon">😊</div>
-        <div class="feature-title">EMOJI & GIF</div>
-        <div class="feature-desc">Built-in emoji picker and GIF search.</div>
+        <div class="feature-title">Emoji & GIF</div>
+        <div class="feature-desc">Built-in emoji picker, GIF search, message reactions, and reply/quote support.</div>
       </div>
-      <div class="feature">
-        <div class="feature-icon">🌙</div>
-        <div class="feature-title">DARK / LIGHT</div>
-        <div class="feature-desc">Terminal dark mode with a clean light mode toggle.</div>
+      <div class="feature-card">
+        <div class="feature-icon">👑</div>
+        <div class="feature-title">Admin Controls</div>
+        <div class="feature-desc">Room creator gets admin badge and can delete any message to moderate the room.</div>
       </div>
     </div>
+  </section>
 
-    <a class="btn" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">[ DOWNLOAD APK ]</a>
-    <a class="btn btn-secondary" href="https://github.com/atharvpawar16/adpchathouse-app">[ VIEW ON GITHUB ]</a>
+  <div class="divider"></div>
 
-    <footer>© 2026 Atharv Pawar · ADP Chathouse</footer>
+  <section class="section">
+    <div class="section-label">Tech Stack</div>
+    <h2 class="section-title">Built with modern tools</h2>
+    <p class="section-sub">Native Android wrapper around a Firebase-powered web app.</p>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="stack-layer">Android</div>
+        <div class="stack-tech">Java · AndroidX · WebView</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-layer">Frontend</div>
+        <div class="stack-tech">HTML5 · CSS3 · Vanilla JS</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-layer">Auth</div>
+        <div class="stack-tech">Firebase Authentication</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-layer">Database</div>
+        <div class="stack-tech">Firebase Realtime DB</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-layer">Min SDK</div>
+        <div class="stack-tech">Android 7.0 (API 24)</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-layer">Target SDK</div>
+        <div class="stack-tech">Android 14 (API 34)</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h2>Ready to chat?</h2>
+    <p>Download the APK and join a room in seconds. No phone number required.</p>
+    <a class="btn-white" href="https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0">Download v1.0.0</a>
+    <a class="btn-ghost" href="https://github.com/atharvpawar16/adpchathouse-app">View Source</a>
   </div>
+
+  <footer>
+    <p>© 2026 <a href="https://github.com/atharvpawar16">Atharv Pawar</a> · ADP Chathouse · All rights reserved</p>
+  </footer>
+
 </body>
 </html>
