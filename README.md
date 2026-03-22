@@ -21,11 +21,15 @@ No phone number. No social media. Just instant connection.
 
 ## Screenshots
 
-> Terminal dark mode · Light mode · Anonymous room · Permanent login
-
-<!-- Add screenshots here once available -->
 <div align="center">
-<i>Screenshots coming soon</i>
+<img src="screenshots/1_login.jpeg" width="22%" />
+<img src="screenshots/2_login_light.jpeg" width="22%" />
+<img src="screenshots/3_chat.jpeg" width="22%" />
+<img src="screenshots/6_chat_4.jpeg" width="22%" />
+</div>
+
+<div align="center">
+<sub>Login · Light Mode · Chat · Live Room</sub>
 </div>
 
 ---
