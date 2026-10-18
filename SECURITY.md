@@ -12,8 +12,7 @@ If you discover a security vulnerability in ADP Chathouse, please **do not** ope
 
 Instead, report it privately:
 
-- **Email:** adp060606@gmail.com
-- **Subject:** `[SECURITY] ADP Chathouse - <brief description>`
+- **GitHub:** open the repository's **Security** tab and choose **Report a vulnerability** (private vulnerability reporting).
 
 ### What to include
 - Description of the vulnerability
