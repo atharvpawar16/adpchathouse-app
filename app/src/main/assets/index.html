@@ -230,8 +230,8 @@
 
       <!-- Mode Selection Tabs -->
       <div class="mode-tabs">
-        <button class="mode-tab active" id="permanent-tab">📧 PERMANENT</button>
-        <button class="mode-tab" id="anonymous-tab">🎭 ANONYMOUS</button>
+        <button class="mode-tab active" id="permanent-tab" aria-pressed="true" aria-controls="permanent-mode">📧 PERMANENT</button>
+        <button class="mode-tab" id="anonymous-tab" aria-pressed="false" aria-controls="anonymous-mode">🎭 ANONYMOUS</button>
       </div>
 
       <!-- PERMANENT LOGIN MODE -->
@@ -1010,6 +1010,8 @@
     // ── MODE SWITCHING ──
     permanentTab.addEventListener('click', () => {
       permanentTab.classList.add('active');
+      permanentTab.setAttribute('aria-pressed', 'true');
+      anonymousTab.setAttribute('aria-pressed', 'false');
       anonymousTab.classList.remove('active');
       permanentMode.classList.remove('hidden');
       anonymousMode.classList.add('hidden');
@@ -1020,6 +1022,8 @@
 
     anonymousTab.addEventListener('click', () => {
       anonymousTab.classList.add('active');
+      anonymousTab.setAttribute('aria-pressed', 'true');
+      permanentTab.setAttribute('aria-pressed', 'false');
       permanentTab.classList.remove('active');
       anonymousMode.classList.remove('hidden');
       permanentMode.classList.add('hidden');
