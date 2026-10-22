@@ -69,7 +69,18 @@ You need Android Studio (Hedgehog or newer) and JDK 17.
 4. Replace the Firebase config in `app/src/main/assets/index.html` with your own.
 5. Run it on a device or emulator.
 
-The GitHub Actions build uses a placeholder `google-services.json`, so CI only checks that the project compiles.
+The GitHub Actions build uses a placeholder `google-services.json`, so its Android build checks compilation, not a connection to the production Firebase project. CI also checks web script syntax, JSON files and service-worker regression tests.
+
+### Run the web checks
+
+With Node.js 22 or newer, run these from the repository root. No npm install or extra dependencies are needed:
+
+```sh
+node scripts/check-web.mjs
+node --test tests/*.test.cjs
+```
+
+The tests exercise shell installation, cache isolation, activation and network fallback in an isolated service-worker harness. They do not sign in or write to Firebase. Android device testing is still needed for picker behavior and WebView lifecycle changes.
 
 ## Notes on security
 

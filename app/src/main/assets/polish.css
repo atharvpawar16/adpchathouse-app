@@ -1,0 +1,82 @@
+/* A quieter terminal: readable contrast, consistent controls, room to breathe. */
+:root {
+  --bg:#0b100e; --bg2:#131b16; --green:#8ee6af; --green-dim:#70cf96;
+  --green-dark:#1b3526; --green-glow:none; --border:#304639;
+  --border-bright:#486953; --text:#e2eee6; --text-dim:#a4bcae;
+  --text-faint:#93aa9a; --red:#ff9898;
+}
+body::before { display:none; }
+#login-screen { justify-content:flex-start; padding:40px 20px 24px; min-height:0; height:100dvh; }
+.login-box { margin:auto 0; max-width:480px; padding:30px; border-radius:20px; gap:8px; box-shadow:0 18px 60px #0003; }
+.login-box > div:first-child { flex-wrap:wrap; gap:12px; }
+.logo { font-size:1.15rem; letter-spacing:.7px; text-shadow:none; }
+.tagline { margin:6px 0 8px; line-height:1.6; }
+.mode-tabs { gap:4px; margin:12px 0 18px; padding:4px; border:1px solid var(--border); border-radius:12px; }
+.mode-tab { border:0; border-radius:8px; letter-spacing:.7px; padding:12px 6px; min-height:44px; }
+.mode-tab.active { background:var(--green-dark); box-shadow:none; }
+.mode-description,.hint { font-style:normal; line-height:1.65; }
+.mode-description { margin-bottom:12px; }
+label { letter-spacing:1px; margin-top:14px; }
+input[type="text"],input[type="password"],input[type="email"] { border:1px solid var(--border); border-radius:10px; background:var(--bg); min-height:48px; color:var(--text); font-size:16px; }
+input[type="text"]:focus,input[type="password"]:focus,input[type="email"]:focus { border-color:var(--green); box-shadow:0 0 0 3px #8ee6af20; }
+button { touch-action:manipulation; }
+button:focus-visible,[role="button"]:focus-visible,.color-dot:focus-visible { outline:2px solid var(--green); outline-offset:3px; }
+.btn-primary,.btn-secondary { border-radius:10px; letter-spacing:1px; min-height:48px; text-shadow:none; }
+.btn-primary { background:var(--green); color:#102317; border-color:var(--green); }
+.btn-primary:hover { background:var(--green-dim); color:#102317; box-shadow:none; }
+.btn-primary:disabled { opacity:.55; }
+.btn-leave { border-radius:8px; min-height:36px; letter-spacing:.4px; }
+.color-dot { width:32px; height:32px; outline-offset:3px; }
+.chat-header { padding:12px 18px; gap:12px; }
+.logo-small { letter-spacing:1px; text-shadow:none; }
+.header-right { gap:8px; }
+#online-count { min-height:36px; display:inline-flex; align-items:center; border-radius:8px; }
+#messages { padding:20px; gap:10px; scroll-padding:16px; }
+.msg { padding:8px 10px; border-radius:8px; font-size:.9rem; line-height:1.7; }
+.msg.mine { background:var(--green-dark); }
+.msg.mine .text { color:var(--text); }
+.msg.system { padding:6px; }
+.reaction-bar,.reactions,.reply-quote,#emoji-picker,#gif-picker { border-radius:8px; }
+.msg:focus-within .reaction-bar { display:flex; }
+.msg:focus-within .msg-delete { opacity:1; }
+.chat-input-bar { padding:12px 16px max(12px,env(safe-area-inset-bottom)); }
+.input-row { flex-wrap:wrap; gap:8px; }
+#msg-input { min-width:100px; flex:1 1 160px; margin:0; }
+.icon-btn,#img-btn,.btn-send { border-radius:9px; min-width:44px; min-height:44px; }
+.btn-send { background:var(--green-dark); letter-spacing:1px; }
+#typing-indicator { padding:4px 20px; min-height:24px; }
+#net-pulse { animation:pulse 2s ease-in-out infinite alternate; }
+#user-panel { width:min(300px,85vw); box-shadow:none; }
+#user-panel.open { box-shadow:-12px 0 40px #0003; }
+#user-panel-close,#reply-cancel { min-width:40px; min-height:40px; }
+#perm-dialog { border-radius:16px; }
+footer { padding:14px 8px 4px; line-height:1.6; }
+body.light { --bg:#f4f6f3; --bg2:#fff; --green:#21643e; --green-dim:#2c754b; --green-dark:#e5f0e8; --border:#c8d5cd; --border-bright:#91aa99; --text:#203a2a; --text-dim:#486551; --text-faint:#526e5c; --red:#b02b35; --green-glow:none; }
+body.light .mode-tab { border:0; background:transparent; }
+body.light .mode-tab.active { background:var(--green-dark); box-shadow:none; }
+body.light .btn-primary { background:var(--green); color:white; box-shadow:none; }
+body.light .btn-primary:hover { background:var(--green-dim); }
+body.light .msg .meta { color:var(--text-faint); }
+@media(min-width:900px) {
+  #chat-screen { width:min(100%,1100px); margin:auto; border-inline:1px solid var(--border); }
+}
+@media(max-width:480px) {
+  html { font-size:15px; }
+  #login-screen { padding:20px 12px; }
+  .login-box { padding:22px 18px; max-width:100%; border-radius:16px; }
+  .logo { font-size:1.05rem; }
+  .chat-header { padding:10px 12px; }
+  .header-right { gap:6px; }
+  #messages { padding:12px 8px; }
+  .chat-input-bar { padding:10px 10px max(10px,env(safe-area-inset-bottom)); }
+  #msg-input { flex-basis:calc(100% - 90px); }
+  .btn-send { margin-left:auto; }
+}
+@media(hover:none) {
+  .msg-delete { opacity:1; min-width:36px; min-height:36px; }
+  .reaction-bar { display:flex; position:static; width:max-content; max-width:100%; margin-top:6px; background:transparent; border:0; padding:0; gap:4px; }
+  .reaction-pick { min-width:36px; min-height:36px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+}

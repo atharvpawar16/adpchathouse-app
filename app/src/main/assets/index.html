@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <meta name="theme-color" content="#020c02"/>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -216,6 +216,7 @@
     #viewer-close:hover{border-color:var(--red);color:var(--red);}
     #zoom-level{color:var(--text);font-size:0.9rem;min-width:50px;text-align:center;user-select:none;}
   </style>
+  <link rel="stylesheet" href="polish.css">
 </head>
 <body>
   <!-- LOGIN -->
@@ -237,17 +238,17 @@
       <div id="permanent-mode" class="login-mode">
         <p class="mode-description">&gt; Everyone who logs in with the same email joins the same room</p>
         
-        <label>// EMAIL</label>
+        <label for="email">// EMAIL</label>
         <input id="email" type="email" placeholder="yourname@gmail.com" autocomplete="email" aria-label="Email"/>
         <span class="hint">&gt; Only Gmail addresses are accepted</span>
 
-        <label>// PASSWORD</label>
+        <label for="password">// PASSWORD</label>
         <div style="position:relative;display:flex;align-items:center;">
           <input id="password" type="password" placeholder="enter password" autocomplete="current-password" aria-label="Password" style="flex:1;padding-right:44px;margin-bottom:0;"/>
           <button type="button" id="toggle-password" aria-label="Toggle password visibility" style="position:absolute;right:0;top:0;height:100%;width:40px;background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;">👁</button>
         </div>
 
-        <label>// DISPLAY NAME <span style="color:var(--green);font-size:0.65rem">— use your real name</span></label>
+        <label for="display-name">// DISPLAY NAME <span style="color:var(--green);font-size:0.65rem">— use your real name</span></label>
         <input id="display-name" type="text" placeholder="e.g. Atharv, Priya, Rahul..." maxlength="20" autocomplete="name" aria-label="Display name"/>
         <span class="hint">&gt; Use your real name so friends can identify you instantly</span>
 
@@ -260,24 +261,24 @@
       <div id="anonymous-mode" class="login-mode hidden">
         <p class="mode-description">&gt; Enter a shared room code to join the same room</p>
 
-        <label>// USERNAME</label>
+        <label for="username">// USERNAME</label>
         <input id="username" type="text" placeholder="enter your handle..." maxlength="20" autocomplete="off" aria-label="Username"/>
 
         <label>// USERNAME COLOR</label>
         <div class="color-row" id="color-row" role="radiogroup" aria-label="Choose username color"></div>
 
-        <label>// ROOM CODE</label>
+        <label for="room">// ROOM CODE</label>
         <input id="room" type="text" placeholder="e.g. 12345 or myfriends" autocomplete="off" aria-label="Room code"/>
         <span class="hint">&gt; Anyone who enters the same code will share this room</span>
 
-        <label>// ROOM PASSWORD <span style="color:var(--text-faint);font-size:0.6rem;letter-spacing:1px">(OPTIONAL)</span></label>
+        <label for="room-password">// ROOM PASSWORD <span style="color:var(--text-faint);font-size:0.6rem;letter-spacing:1px">(OPTIONAL)</span></label>
         <input id="room-password" type="password" placeholder="leave empty for open room" autocomplete="off" aria-label="Room password (optional)"/>
         <span class="hint">&gt; If room has a password, all members must enter it</span>
 
         <button class="btn-primary" id="connect-btn" aria-label="Connect to chat room">[ CONNECT ]</button>
       </div>
 
-      <p class="error" id="login-error"></p>
+      <p class="error" id="login-error" role="alert"></p>
       <div id="forgot-password-container" class="hidden" style="opacity: 0; transition: opacity 0.5s ease-in;">
         <button class="btn-secondary" id="forgot-password-btn" aria-label="Forgot password">[ FORGOT PASSWORD? ]</button>
       </div>

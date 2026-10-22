@@ -1,6 +1,5 @@
 package com.adpchathouse.app;
 
-import android.content.Context;
 import android.webkit.JavascriptInterface;
 
 /**
@@ -8,12 +7,6 @@ import android.webkit.JavascriptInterface;
  * Provides hooks called by JS on room join/leave.
  */
 public class AndroidBridge {
-
-    private final Context context;
-
-    public AndroidBridge(Context context) {
-        this.context = context;
-    }
 
     /** Called by JS after the user joins a room */
     @JavascriptInterface

@@ -20,8 +20,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check web app syntax and regression tests
+        run: |
+          node scripts/check-web.mjs
+          node --test tests/*.test.cjs
+
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.2'
 
       - name: Create dummy google-services.json
         run: |

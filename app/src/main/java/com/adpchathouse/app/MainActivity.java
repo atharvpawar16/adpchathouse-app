@@ -2,6 +2,7 @@ package com.adpchathouse.app;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.ActivityNotFoundException;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -51,15 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> fileChooserLauncher =
         registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (mFilePathCallback == null) return;
-            Uri[] results = null;
-            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                String dataString = result.getData().getDataString();
-                if (dataString != null) {
-                    results = new Uri[]{ Uri.parse(dataString) };
-                }
-            }
-            mFilePathCallback.onReceiveValue(results);
-            mFilePathCallback = null;
+            completeFileChooser(WebChromeClient.FileChooserParams.parseResult(
+                result.getResultCode(), result.getData()));
         });
 
     /**
@@ -91,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setDisplayZoomControls(false);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.addJavascriptInterface(new AndroidBridge(this), "AndroidBridge");
+        webView.addJavascriptInterface(new AndroidBridge(), "AndroidBridge");
 
         webView.setWebChromeClient(new WebChromeClient() {
             /**
@@ -115,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback,
                                              FileChooserParams fileChooserParams) {
-                if (mFilePathCallback != null) {
-                    mFilePathCallback.onReceiveValue(null);
-                }
+                completeFileChooser(null);
                 mFilePathCallback = filePathCallback;
 
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -127,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     fileChooserLauncher.launch(Intent.createChooser(intent, "Select Image"));
-                } catch (Exception e) {
-                    mFilePathCallback = null;
-                    return false;
+                } catch (ActivityNotFoundException e) {
+                    // We took ownership of the callback; resolve it even without a picker.
+                    completeFileChooser(null);
                 }
                 return true;
             }
@@ -148,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /** Completes each file chooser once, clearing state before invoking WebView code. */
+    private void completeFileChooser(Uri[] results) {
+        ValueCallback<Uri[]> callback = mFilePathCallback;
+        mFilePathCallback = null;
+        if (callback != null) callback.onReceiveValue(results);
     }
 
     /**
@@ -219,10 +218,14 @@ public class MainActivity extends AppCompatActivity {
     /** Destroys the WebView and releases resources when the activity is destroyed. */
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        completeFileChooser(null);
         if (webView != null) {
+            webView.removeJavascriptInterface("AndroidBridge");
+            webView.stopLoading();
+            webView.setWebChromeClient(null);
             webView.destroy();
             webView = null;
         }
+        super.onDestroy();
     }
 }
