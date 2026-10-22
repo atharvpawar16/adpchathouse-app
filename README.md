@@ -1,26 +1,14 @@
 <div align="center">
 
-<img src="app icon.png" alt="ADP Chathouse" width="120" />
+<img src="app icon.png" alt="ADP Chathouse" width="110" />
 
 # ADP Chathouse
 
-**A real-time group chat application with a retro terminal aesthetic.**
-No phone number. No social media. Just instant connection.
+A group chat app for Android with a green-on-black terminal look. No phone number, no social login.
 
-[![Download APK](https://img.shields.io/badge/Download-APK%20v1.0.0-00ff41?style=for-the-badge&logo=android&logoColor=white&labelColor=000000)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0)
-
-![Build](https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg)
-![Platform](https://img.shields.io/badge/Platform-Android%207.0+-00ff41?style=flat-square&labelColor=000000)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square&labelColor=000000)
-![Language](https://img.shields.io/badge/Java-Android-orange?style=flat-square&labelColor=000000)
-![Firebase](https://img.shields.io/badge/Firebase-Realtime%20DB-FFCA28?style=flat-square&logo=firebase&labelColor=000000)
-![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square&labelColor=000000)
+[Download the APK (v1.0.0)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0) | [Project page](https://atharvpawar16.github.io/adpchathouse-app/)
 
 </div>
-
----
-
-## Screenshots
 
 <div align="center">
 <img src="screenshots/1_login.jpeg" width="22%" />
@@ -29,155 +17,76 @@ No phone number. No social media. Just instant connection.
 <img src="screenshots/6_chat_4.jpeg" width="22%" />
 </div>
 
-<div align="center">
-<sub>Login · Light Mode · Chat · Live Room</sub>
-</div>
+<div align="center"><sub>Login, light mode, chat, a live room</sub></div>
 
----
+## Why I built it
 
-## What is ADP Chathouse?
+Most chat apps want your number or your social account before you can say hello. I wanted one where you pick a name, type a room code and you are talking. It also had to feel like a terminal, because that is the look I like.
 
-ADP Chathouse is a real-time group chat application for Android. It wraps a Firebase-powered web app inside a native Android WebView, delivering a smooth, app-like experience with full offline resilience and a push-ready architecture.
+## How it works
 
-The interface is inspired by retro terminal aesthetics — monospace fonts, green-on-black, scan lines — complemented by a clean light mode for everyday use.
+The chat itself is a web app (HTML, CSS and plain JavaScript) backed by Firebase. The Android app is a native shell around it: a WebView host, a splash screen, a file chooser for image uploads and a small bridge between JavaScript and Android. The same web app is also published as a project page.
 
----
+## What you can do
 
-## Features
+- **Sign in with email and password** (Firebase Auth). The same email always lands in the same room.
+- **Join anonymously** with a username and a room code, no account needed.
+- **Lock a room** with a password.
+- **Chat in real time** through Firebase Realtime Database.
+- **Send images** up to 5 MB, emoji, and GIFs from the built-in picker.
+- **Reply to and react to** messages, and see who is typing.
+- **Moderate as room creator:** delete messages and manage people in the room.
+- **Switch between** the dark terminal theme and a light theme.
+- **See connection status**, with automatic reconnect, and an unread badge when you scroll up.
+- **Share a room link** from inside the app.
 
-| | Feature | Details |
-|---|---------|---------|
-| 🔐 | Persistent Login | Email and password authentication via Firebase Auth. The same email always maps to the same room. |
-| 🎭 | Anonymous Mode | Join with a username and room code — no account required. |
-| 🔒 | Private Rooms | Optional password protection for anonymous rooms. |
-| ⚡ | Real-time Sync | Messages sync instantly via Firebase Realtime Database. |
-| 🖼️ | Image Sharing | Send images up to 5 MB directly in chat. |
-| 😊 | Emoji & GIF Support | Built-in emoji picker with integrated GIF search. |
-| 💬 | Reply & React | Quote messages and respond with emoji reactions. |
-| ✍️ | Typing Indicators | Live typing status visible to all users in the room. |
-| 👑 | Admin Controls | Room creators can delete messages and moderate participants. |
-| 🌙 | Dark / Light Theme | Terminal dark mode with a clean light mode toggle. |
-| 📶 | Network Pulse | Live connection indicator with automatic reconnection. |
-| 🔔 | Unread Badge | Displays unread message count when scrolled away from the latest messages. |
-| 🔗 | Room Sharing | Share room links directly from within the app. |
+## Stack
 
----
+| Part | What |
+|---|---|
+| Android | Java, WebView, AndroidX. minSdk 24 (Android 7.0), targetSdk 34 |
+| Web app | HTML, CSS, vanilla JavaScript |
+| Backend | Firebase Authentication, Realtime Database, Hosting |
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Android | Java · Native WebView · AndroidX |
-| Frontend | HTML5 · CSS3 · Vanilla JavaScript |
-| Authentication | Firebase Authentication |
-| Database | Firebase Realtime Database |
-| Hosting | Firebase Hosting |
-| Minimum SDK | Android 7.0 (API 24) |
-| Target SDK | Android 14 (API 34) |
-
----
-
-## Project Structure
+## Folders
 
 ```
-adpchathouse-app/
-├── app/
-│   └── src/main/
-│       ├── java/com/adpchathouse/app/
-│       │   ├── MainActivity.java       # WebView host + file chooser
-│       │   ├── SplashActivity.java     # Animated splash screen
-│       │   └── AndroidBridge.java      # JS ↔ Android interface
-│       ├── assets/
-│       │   ├── index.html              # Full web app (UI + Firebase logic)
-│       │   ├── manifest.json           # PWA manifest
-│       │   └── service-worker.js       # Offline caching
-│       ├── res/                        # Icons, drawables, layouts, themes
-│       └── AndroidManifest.xml
-├── functions/
-│   └── index.js                        # Cloud Functions placeholder
-├── build.gradle
-├── settings.gradle
-└── README.md
+app/src/main/java/com/adpchathouse/app/   MainActivity, SplashActivity, AndroidBridge
+app/src/main/assets/                      the web app, manifest, service worker
+app/src/main/res/                         icons, layouts, themes
+functions/                                Cloud Functions placeholder
+docs/                                     project page
+screenshots/                              images used above
 ```
 
----
+## Build it yourself
 
-## Getting Started
+You need Android Studio (Hedgehog or newer) and JDK 17.
 
-### Prerequisites
-- Android Studio Hedgehog or newer
-- JDK 17+
-- A Firebase project with Realtime Database and Authentication enabled
+1. Clone the repo.
+2. Create your own Firebase project with Authentication and Realtime Database turned on.
+3. Put your `google-services.json` in `app/`. It is not in the repo.
+4. Replace the Firebase config in `app/src/main/assets/index.html` with your own.
+5. Run it on a device or emulator.
 
-### Setup
+The GitHub Actions build uses a placeholder `google-services.json`, so CI only checks that the project compiles.
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/atharvpawar16/adpchathouse-app.git
-   ```
+## Notes on security
 
-2. Open the project in Android Studio.
+Firebase web keys are public by design. Access is controlled by Firebase Security Rules on the backend. The signing keystore and `google-services.json` are kept out of the repo.
 
-3. Add your `google-services.json` to the `app/` directory. This file is not included — you must create your own Firebase project.
+## Next
 
-4. Update the Firebase configuration inside `app/src/main/assets/index.html` with your own project credentials.
+Push notifications (FCM), message search, voice messages, profiles and avatars, end-to-end encryption.
 
-5. Build and run the app on a physical device or emulator.
+## Install
 
----
+Grab the APK from [Releases](https://github.com/atharvpawar16/adpchathouse-app/releases). You need Android 7.0 or newer and have to allow installs from unknown sources.
 
-## Download
-
-Get the latest release APK directly from the [Releases](https://github.com/atharvpawar16/adpchathouse-app/releases) page.
-
-> Requires Android 7.0 or higher. Enable "Install from unknown sources" in your device settings before installing.
-
----
-
-## Security Notes
-
-- Firebase API keys exposed in the frontend are public by design. Security is enforced through Firebase Security Rules on the backend.
-- The signing keystore is excluded from this repository.
-- `google-services.json` is excluded — you must supply your own.
-
----
-
-## Roadmap
-
-- [ ] Push notifications via FCM
-- [ ] Message search
-- [ ] Voice messages
-- [ ] User profiles and avatars
-- [ ] End-to-end encryption
-
----
-
-## Developer
-
-**Atharv Pawar**  
-Android & Web Developer
-
-[![GitHub](https://img.shields.io/badge/GitHub-atharvpawar16-181717?style=flat-square&logo=github)](https://github.com/atharvpawar16)
-[![Portfolio](https://img.shields.io/badge/Portfolio-atharvpawar16.netlify.app-00ff41?style=flat-square&labelColor=000000)](https://atharvpawar16.netlify.app/)
-
----
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for the full version history.
-
----
-
-## Contributing
-
-This is a personal project and pull requests are not actively accepted. However, you are welcome to:
-- Open an issue if you discover a bug
-- Fork the repository and build your own version
-- Star the repository if you find it useful
-
----
+See [CHANGELOG.md](CHANGELOG.md) for history.
 
 ## License
 
-© 2026 Atharv Pawar. All rights reserved.  
-This project is personal and proprietary. Unauthorized use, copying, or distribution is strictly prohibited.
+Copyright (c) 2026 Atharv Pawar. All rights reserved. See [LICENSE](LICENSE).
+
+Built by [Atharv Pawar](https://atharvpawar16.netlify.app/).
