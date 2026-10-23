@@ -8,6 +8,8 @@ A group chat app for Android with a green-on-black terminal look. No phone numbe
 
 [Download the APK (v1.0.0)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0) | [Project page](https://atharvpawar16.github.io/adpchathouse-app/)
 
+[![Android Build](https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml/badge.svg)](https://github.com/atharvpawar16/adpchathouse-app/actions/workflows/android-build.yml) [![Version](https://img.shields.io/github/v/release/atharvpawar16/adpchathouse-app?color=b87333)](https://github.com/atharvpawar16/adpchathouse-app/releases/latest)
+
 </div>
 
 <div align="center">
