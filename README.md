@@ -4,6 +4,8 @@
 
 # ADP Chathouse
 
+[![views](https://hits.sh/github.com/atharvpawar16/adpchathouse-app.svg?label=views)](https://hits.sh/github.com/atharvpawar16/adpchathouse-app/)
+
 A group chat app for Android with a green-on-black terminal look. No phone number, no social login.
 
 [Download the APK (v1.0.0)](https://github.com/atharvpawar16/adpchathouse-app/releases/tag/v1.0.0) | [Project page](https://atharvpawar16.github.io/adpchathouse-app/)
